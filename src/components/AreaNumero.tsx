@@ -25,6 +25,7 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
       aoSoltar(indice, item.numero);
       return { destino: indice };
     },
+    canDrop: () => numeroAtual === null, // Só aceita soltar se não tiver número
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop(),
@@ -35,7 +36,8 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
   const areaClasses = cn(
     'area-soltavel w-20 h-20 md:w-24 md:h-24 flex items-center justify-center',
     isOver && 'ativo',
-    emPosicaoCorreta && numeroAtual !== null && 'bg-green-100'
+    emPosicaoCorreta && numeroAtual !== null && 'bg-green-100',
+    numeroAtual !== null ? 'cursor-not-allowed' : 'cursor-pointer'
   );
 
   return (

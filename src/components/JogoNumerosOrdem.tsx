@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -170,7 +169,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     // Se já existe um número nesse lugar, não faz nada
     if (numerosPosicionados[indice] !== null) return;
     
-    // Atualiza números disponíveis e posicionados
+    // Atualiza números posicionados
     const novoNumerosPosicionados = [...numerosPosicionados];
     novoNumerosPosicionados[indice] = numero;
     
