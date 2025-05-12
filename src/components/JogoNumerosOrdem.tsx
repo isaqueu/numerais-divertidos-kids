@@ -1,38 +1,29 @@
+
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { isTouchDevice } from '@/utils/detectarToque';
-import AreaNumero from './AreaNumero';
-import CartaoNumero from './CartaoNumero';
-import { Button } from '@/components/ui/button';
 import { Nivel, ConfigJogo, HistoricoPartida } from '@/types/jogo';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import RegrasJogo from './RegrasJogo';
-import {
-  Star,
-  ArrowRight,
-  HelpCircle
-} from 'lucide-react';
 import { salvarHistoricoPartida } from '@/utils/historicoUtils';
 import { useUsuarioAtual } from '@/hooks/use-usuario';
+import { embaralharArray } from '@/utils/jogoUtils';
+
+// Componentes refatorados
+import CabecalhoJogo from './jogo/CabecalhoJogo';
+import AreaTrem from './jogo/AreaTrem';
+import NumerosDisponiveis from './jogo/NumerosDisponiveis';
+import BotoesAcaoJogo from './jogo/BotoesAcaoJogo';
+import EfeitoComemorar from './jogo/EfeitoComemorar';
 
 type JogoNumerosOrdemProps = {
   nivel: Nivel;
   config: ConfigJogo;
   aoPassarNivel: () => void;
   aoVoltarMenu: () => void;
-};
-
-// Função para embaralhar array (algoritmo de Fisher-Yates)
-const embaralharArray = <T,>(array: T[]): T[] => {
-  const novoArray = [...array];
-  for (let i = novoArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [novoArray[i], novoArray[j]] = [novoArray[j], novoArray[i]];
-  }
-  return novoArray;
 };
 
 // Componente principal do jogo
@@ -214,96 +205,32 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     });
   };
 
-  // Próximo nível ou voltar ao menu
-  const handleProximoNivel = () => {
-    aoPassarNivel();
-  };
-
   return (
     <DndProvider backend={backendForDND}>
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">
-            {nivel.titulo}
-          </h2>
-          <p className="text-lg">
-            Organize os números de {nivel.minimo} a {nivel.maximo} em ordem crescente
-          </p>
-          <Button
-            variant="outline"
-            size="sm"
-            className="mt-2 border-infantil-roxo text-infantil-roxo hover:bg-infantil-roxo hover:text-white"
-            onClick={() => setMostrarRegras(true)}
-          >
-            <HelpCircle size={16} className="mr-1" />
-            Ver Regras
-          </Button>
-        </div>
+        <CabecalhoJogo 
+          nivel={nivel} 
+          onAbrirRegras={() => setMostrarRegras(true)} 
+        />
 
-        {/* Área do trem */}
-        <div className="mb-10">
-          <div className="flex flex-row items-center">
-            <div className="bg-infantil-azul w-24 h-16 rounded-l-full flex items-center justify-center">
-              <span className="text-white font-bold">🚂</span>
-            </div>
+        <AreaTrem 
+          numerosPosicionados={numerosPosicionados}
+          respostasCorretas={respostasCorretas}
+          handleSoltar={handleSoltar}
+        />
 
-            <div className="flex justify-center items-end gap-1 md:gap-2">
-              {numerosPosicionados.map((numero, indice) => (
-                <AreaNumero
-                  key={indice}
-                  indice={indice}
-                  posicaoEsperada={indice}
-                  numeroAtual={numero}
-                  emPosicaoCorreta={respostasCorretas[indice]}
-                  aoSoltar={handleSoltar}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        <NumerosDisponiveis
+          numerosDisponiveis={numerosDisponiveis}
+          jogoCompleto={jogoCompleto}
+        />
 
-        {/* Área dos números disponíveis */}
-        <div className="bg-blue-50 p-4 rounded-xl">
-          <h3 className="text-lg font-medium mb-2">Números Disponíveis:</h3>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {numerosDisponiveis.map((numero) => (
-              <CartaoNumero key={numero} numero={numero} />
-            ))}
-            {numerosDisponiveis.length === 0 && !jogoCompleto && (
-              <p className="text-gray-500">Todos os números já foram usados!</p>
-            )}
-          </div>
-        </div>
-
-        {/* Botões de ação */}
-        <div className="flex justify-between mt-6">
-          <Button 
-            variant="outline" 
-            onClick={aoVoltarMenu}
-            className="border-infantil-roxo text-infantil-roxo hover:bg-infantil-roxo hover:text-white"
-          >
-            Menu
-          </Button>
-
-          {!jogoCompleto ? (
-            <Button
-              variant="outline"
-              onClick={reiniciarPosicoes}
-              className="border-infantil-laranja text-infantil-laranja hover:bg-infantil-laranja hover:text-white"
-              disabled={numerosPosicionados.every(n => n === null)}
-            >
-              Reiniciar
-            </Button>
-          ) : (
-            <Button
-              onClick={handleProximoNivel}
-              className="bg-infantil-verde hover:bg-green-600 gap-2"
-            >
-              Próximo Nível
-              <ArrowRight size={16} />
-            </Button>
-          )}
-        </div>
+        <BotoesAcaoJogo
+          jogoCompleto={jogoCompleto}
+          numerosPosicionados={numerosPosicionados}
+          onVoltarMenu={aoVoltarMenu}
+          onReiniciarPosicoes={reiniciarPosicoes}
+          onProximoNivel={aoPassarNivel}
+        />
 
         {/* Modal de Regras */}
         <RegrasJogo 
@@ -312,25 +239,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
           aoFechar={() => setMostrarRegras(false)} 
         />
 
-        {/* Efeito de comemoração */}
-        {comemorando && (
-          <div className="fixed top-0 left-0 w-full h-full pointer-events-none">
-            {Array(20).fill(0).map((_, i) => (
-              <div 
-                key={i}
-                className="absolute animate-comemorar text-3xl"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 0.5}s`,
-                  animationDuration: `${1 + Math.random() * 2}s`
-                }}
-              >
-                {['🎉', '⭐', '🎊', '🏆', '✨'][Math.floor(Math.random() * 5)]}
-              </div>
-            ))}
-          </div>
-        )}
+        <EfeitoComemorar comemorando={comemorando} />
       </div>
     </DndProvider>
   );
