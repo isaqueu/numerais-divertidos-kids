@@ -7,14 +7,17 @@ import { isTouchDevice } from '@/utils/detectarToque';
 import AreaNumero from './AreaNumero';
 import CartaoNumero from './CartaoNumero';
 import { Button } from '@/components/ui/button';
-import { Nivel, ConfigJogo } from '@/types/jogo';
+import { Nivel, ConfigJogo, HistoricoPartida } from '@/types/jogo';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
+import RegrasJogo from './RegrasJogo';
 import {
-  Confetti,
   Star,
-  ArrowRight
+  ArrowRight,
+  HelpCircle
 } from 'lucide-react';
+import { salvarHistoricoPartida } from '@/utils/historicoUtils';
+import { useUsuarioAtual } from '@/hooks/use-usuario';
 
 type JogoNumerosOrdemProps = {
   nivel: Nivel;
@@ -46,13 +49,17 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
   const [jogoCompleto, setJogoCompleto] = useState<boolean>(false);
   const [tentativas, setTentativas] = useState<number>(0);
   const [comemorando, setComemorando] = useState<boolean>(false);
+  const [tempoInicial, setTempoInicial] = useState<number>(Date.now());
+  const [mostrarRegras, setMostrarRegras] = useState<boolean>(false);
   
+  const { usuario } = useUsuarioAtual();
   const isMobile = useIsMobile();
   const backendForDND = isTouchDevice() ? TouchBackend : HTML5Backend;
 
   // Inicializar jogo com números aleatórios do intervalo do nível
   useEffect(() => {
     iniciarJogo();
+    setTempoInicial(Date.now());
   }, [nivel]);
 
   // Verificar se todos os números estão na posição correta
@@ -63,8 +70,25 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     
     if (todosCorretos && !jogoCompleto && numerosPosicionados.every(num => num !== null)) {
       // Todos os números estão corretos!
+      const tempoFinal = Math.floor((Date.now() - tempoInicial) / 1000);
       setJogoCompleto(true);
       setComemorando(true);
+      
+      // Salvar histórico da partida
+      if (usuario) {
+        const historicoPartida: HistoricoPartida = {
+          id: `${Date.now()}`,
+          usuario: usuario.nome,
+          nivelId: nivel.id,
+          tituloNivel: nivel.titulo,
+          dataHora: new Date().toISOString(),
+          resultado: 'acerto',
+          tentativas: tentativas,
+          tempoTotal: tempoFinal
+        };
+        
+        salvarHistoricoPartida(historicoPartida);
+      }
       
       setTimeout(() => {
         toast("Parabéns!", { 
@@ -102,6 +126,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     setJogoCompleto(false);
     setTentativas(0);
     setComemorando(false);
+    setTempoInicial(Date.now());
   };
 
   // Função para lidar com soltar um número em uma posição
@@ -149,6 +174,22 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     toast("Jogo reiniciado", { 
       description: "Tente novamente organizar os números!" 
     });
+
+    // Registrar erro no histórico
+    if (usuario) {
+      const historicoPartida: HistoricoPartida = {
+        id: `${Date.now()}`,
+        usuario: usuario.nome,
+        nivelId: nivel.id,
+        tituloNivel: nivel.titulo,
+        dataHora: new Date().toISOString(),
+        resultado: 'erro',
+        tentativas: tentativas,
+        tempoTotal: Math.floor((Date.now() - tempoInicial) / 1000)
+      };
+      
+      salvarHistoricoPartida(historicoPartida);
+    }
   };
 
   // Próximo nível ou voltar ao menu
@@ -166,6 +207,15 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
           <p className="text-lg">
             Organize os números de {nivel.minimo} a {nivel.maximo} em ordem crescente
           </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-2 border-infantil-roxo text-infantil-roxo hover:bg-infantil-roxo hover:text-white"
+            onClick={() => setMostrarRegras(true)}
+          >
+            <HelpCircle size={16} className="mr-1" />
+            Ver Regras
+          </Button>
         </div>
 
         {/* Área do trem */}
@@ -232,6 +282,13 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
             </Button>
           )}
         </div>
+
+        {/* Modal de Regras */}
+        <RegrasJogo 
+          nivel={nivel}
+          aberto={mostrarRegras}
+          aoFechar={() => setMostrarRegras(false)} 
+        />
 
         {/* Efeito de comemoração */}
         {comemorando && (

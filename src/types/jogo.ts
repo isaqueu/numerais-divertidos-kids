@@ -15,3 +15,21 @@ export type ConfigJogo = {
   tempoLimite: number; // Em segundos, 0 significa sem limite
   mostrarDicas: boolean;
 };
+
+export type HistoricoPartida = {
+  id: string;
+  usuario: string;
+  nivelId: number;
+  tituloNivel: string;
+  dataHora: string;
+  resultado: 'acerto' | 'erro';
+  tentativas: number;
+  tempoTotal: number; // em segundos
+};
+
+export type Usuario = {
+  nome: string;
+  acertos: number;
+  erros: number;
+  ultimoAcesso: string;
+};

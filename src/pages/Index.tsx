@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
@@ -9,34 +10,46 @@ import JogoNumerosOrdem from '@/components/JogoNumerosOrdem';
 import SelecaoNivel from '@/components/SelecaoNivel';
 import { Nivel } from '@/types/jogo';
 import { toast } from 'sonner';
+import { useUsuarioAtual } from '@/hooks/use-usuario';
 
 const Index = () => {
   const [niveis, setNiveis] = useState(niveisIniciais);
   const [nivelAtual, setNivelAtual] = useState<Nivel | null>(null);
   const [jogoEmAndamento, setJogoEmAndamento] = useState(false);
+  const { usuario, carregando } = useUsuarioAtual();
+  const navigate = useNavigate();
   
   // Usar backend apropriado para DnD com base no dispositivo
   const backendForDND = isTouchDevice() ? TouchBackend : HTML5Backend;
 
+  // Verificar se usuário está logado
+  useEffect(() => {
+    if (!carregando && !usuario) {
+      navigate('/');
+    }
+  }, [carregando, usuario, navigate]);
+
   // Carregar progresso do jogador do localStorage
   useEffect(() => {
-    const progressoSalvo = localStorage.getItem('numerais-divertidos-progresso');
-    if (progressoSalvo) {
-      try {
-        const niveisCarregados = JSON.parse(progressoSalvo);
-        setNiveis(niveisCarregados);
-      } catch (e) {
-        console.error("Erro ao carregar progresso:", e);
+    if (usuario) {
+      const progressoSalvo = localStorage.getItem(`numerais-divertidos-progresso-${usuario.nome}`);
+      if (progressoSalvo) {
+        try {
+          const niveisCarregados = JSON.parse(progressoSalvo);
+          setNiveis(niveisCarregados);
+        } catch (e) {
+          console.error("Erro ao carregar progresso:", e);
+        }
       }
     }
-  }, []);
+  }, [usuario]);
 
   // Salvar progresso do jogador no localStorage
   useEffect(() => {
-    if (niveis !== niveisIniciais) {
-      localStorage.setItem('numerais-divertidos-progresso', JSON.stringify(niveis));
+    if (usuario && niveis !== niveisIniciais) {
+      localStorage.setItem(`numerais-divertidos-progresso-${usuario.nome}`, JSON.stringify(niveis));
     }
-  }, [niveis]);
+  }, [niveis, usuario]);
 
   // Selecionar um nível para jogar
   const handleSelecionarNivel = (nivel: Nivel) => {
@@ -105,7 +118,9 @@ const Index = () => {
   // Resetar todo o progresso do jogo
   const handleResetarProgresso = () => {
     if (window.confirm("Tem certeza que deseja resetar todo o seu progresso? Isso não pode ser desfeito!")) {
-      localStorage.removeItem('numerais-divertidos-progresso');
+      if (usuario) {
+        localStorage.removeItem(`numerais-divertidos-progresso-${usuario.nome}`);
+      }
       setNiveis(niveisIniciais);
       setJogoEmAndamento(false);
       setNivelAtual(null);
@@ -114,6 +129,19 @@ const Index = () => {
       });
     }
   };
+
+  // Voltar para o Dashboard
+  const voltarDashboard = () => {
+    navigate('/dashboard');
+  };
+
+  if (carregando) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl">Carregando...</p>
+      </div>
+    );
+  }
 
   return (
     <DndProvider backend={backendForDND}>
@@ -126,15 +154,23 @@ const Index = () => {
                 Numerais Divertidos
               </h1>
               
-              {/* Botão para resetar progresso (oculto durante jogo) */}
-              {!jogoEmAndamento && (
+              <div className="flex gap-2">
                 <button 
-                  onClick={handleResetarProgresso}
-                  className="text-sm text-gray-400 hover:text-gray-600"
+                  onClick={voltarDashboard}
+                  className="text-sm text-infantil-roxo hover:text-infantil-azul border border-infantil-roxo hover:border-infantil-azul px-2 py-1 rounded"
                 >
-                  Resetar Progresso
+                  Dashboard
                 </button>
-              )}
+                
+                {!jogoEmAndamento && (
+                  <button 
+                    onClick={handleResetarProgresso}
+                    className="text-sm text-gray-400 hover:text-gray-600"
+                  >
+                    Resetar Progresso
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </header>
