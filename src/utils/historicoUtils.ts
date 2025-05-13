@@ -5,7 +5,10 @@ import { HistoricoPartida, Usuario } from '../types/jogo';
 const CHAVE_HISTORICO = 'numerais-divertidos-historico';
 const CHAVE_USUARIOS = 'numerais-divertidos-usuarios';
 
-// Usuários pré-cadastrados
+/**
+ * Lista de usuários pré-cadastrados no sistema
+ * Usado para inicialização quando não há dados salvos
+ */
 const USUARIOS_PADRAO = [
   { nome: 'ISAQUEU', acertos: 0, erros: 0, ultimoAcesso: '' },
   { nome: 'KLEDJANE', acertos: 0, erros: 0, ultimoAcesso: '' },
@@ -13,7 +16,10 @@ const USUARIOS_PADRAO = [
   { nome: 'GABI', acertos: 0, erros: 0, ultimoAcesso: '' }
 ];
 
-// Função para inicializar usuários se não existirem
+/**
+ * Inicializa a lista de usuários no localStorage se não existir
+ * @returns {Usuario[]} - Array de usuários do sistema
+ */
 export const inicializarUsuarios = (): Usuario[] => {
   const usuariosExistentes = localStorage.getItem(CHAVE_USUARIOS);
   
@@ -25,18 +31,29 @@ export const inicializarUsuarios = (): Usuario[] => {
   return JSON.parse(usuariosExistentes);
 };
 
-// Obter todos os usuários
+/**
+ * Obtém todos os usuários cadastrados no sistema
+ * @returns {Usuario[]} - Array de todos os usuários
+ */
 export const obterUsuarios = (): Usuario[] => {
   return inicializarUsuarios();
 };
 
-// Verificar se um usuário existe
+/**
+ * Verifica se um usuário existe no sistema
+ * @param {string} nome - Nome do usuário a verificar
+ * @returns {boolean} - true se o usuário existe, false caso contrário
+ */
 export const verificarUsuario = (nome: string): boolean => {
   const usuarios = obterUsuarios();
   return usuarios.some(usuario => usuario.nome.toUpperCase() === nome.toUpperCase());
 };
 
-// Atualizar último acesso do usuário
+/**
+ * Atualiza o registro de último acesso de um usuário
+ * @param {string} nome - Nome do usuário a atualizar
+ * @returns {Usuario|null} - Dados do usuário atualizado ou null se não encontrado
+ */
 export const atualizarAcessoUsuario = (nome: string): Usuario | null => {
   const usuarios = obterUsuarios();
   const indice = usuarios.findIndex(
@@ -54,13 +71,19 @@ export const atualizarAcessoUsuario = (nome: string): Usuario | null => {
   return usuarios[indice];
 };
 
-// Obter todo o histórico de partidas
+/**
+ * Obtém todo o histórico de partidas do sistema
+ * @returns {HistoricoPartida[]} - Array com todas as partidas registradas
+ */
 export const obterHistoricoPartidas = (): HistoricoPartida[] => {
   const historico = localStorage.getItem(CHAVE_HISTORICO);
   return historico ? JSON.parse(historico) : [];
 };
 
-// Salvar uma nova partida no histórico
+/**
+ * Salva uma nova partida no histórico e atualiza estatísticas do usuário
+ * @param {HistoricoPartida} partida - Dados da partida a ser salva
+ */
 export const salvarHistoricoPartida = (partida: HistoricoPartida): void => {
   // Obter histórico atual
   const historicoAtual = obterHistoricoPartidas();
@@ -75,6 +98,7 @@ export const salvarHistoricoPartida = (partida: HistoricoPartida): void => {
   );
   
   if (indiceUsuario !== -1) {
+    // Incrementa contador de acertos ou erros conforme o resultado
     if (partida.resultado === 'acerto') {
       usuarios[indiceUsuario].acertos += 1;
     } else {
@@ -88,7 +112,11 @@ export const salvarHistoricoPartida = (partida: HistoricoPartida): void => {
   localStorage.setItem(CHAVE_HISTORICO, JSON.stringify(historicoAtual));
 };
 
-// Obter histórico de um usuário específico
+/**
+ * Filtra o histórico de partidas para um usuário específico
+ * @param {string} nomeUsuario - Nome do usuário para filtrar
+ * @returns {HistoricoPartida[]} - Array das partidas do usuário
+ */
 export const obterHistoricoUsuario = (nomeUsuario: string): HistoricoPartida[] => {
   const todasPartidas = obterHistoricoPartidas();
   return todasPartidas.filter(
@@ -96,13 +124,20 @@ export const obterHistoricoUsuario = (nomeUsuario: string): HistoricoPartida[] =
   );
 };
 
-// Obter histórico de um nível específico
+/**
+ * Filtra o histórico de partidas para um nível específico
+ * @param {number} nivelId - ID do nível para filtrar
+ * @returns {HistoricoPartida[]} - Array das partidas do nível
+ */
 export const obterHistoricoNivel = (nivelId: number): HistoricoPartida[] => {
   const todasPartidas = obterHistoricoPartidas();
   return todasPartidas.filter(partida => partida.nivelId === nivelId);
 };
 
-// Calcular ranking de usuários
+/**
+ * Calcula o ranking dos usuários baseado em acertos e erros
+ * @returns {Usuario[]} - Array de usuários ordenados por desempenho
+ */
 export const calcularRanking = (): Usuario[] => {
   const usuarios = obterUsuarios();
   

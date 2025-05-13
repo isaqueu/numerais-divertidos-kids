@@ -12,24 +12,36 @@ import { Nivel } from '@/types/jogo';
 import { toast } from 'sonner';
 import { useUsuarioAtual } from '@/hooks/use-usuario';
 
+/**
+ * Componente principal da página de jogo
+ * Controla toda a navegação entre menus e níveis,
+ * e gerencia o progresso do jogador
+ */
 const Index = () => {
+  // Estados para controlar o fluxo do jogo
   const [niveis, setNiveis] = useState(niveisIniciais);
   const [nivelAtual, setNivelAtual] = useState<Nivel | null>(null);
   const [jogoEmAndamento, setJogoEmAndamento] = useState(false);
+  
+  // Obtém informações do usuário logado
   const { usuario, carregando } = useUsuarioAtual();
   const navigate = useNavigate();
   
-  // Usar backend apropriado para DnD com base no dispositivo
+  // Determina o backend apropriado para DnD baseado no dispositivo
   const backendForDND = isTouchDevice() ? TouchBackend : HTML5Backend;
 
-  // Verificar se usuário está logado
+  /**
+   * Verifica se o usuário está logado e redireciona se não estiver
+   */
   useEffect(() => {
     if (!carregando && !usuario) {
       navigate('/');
     }
   }, [carregando, usuario, navigate]);
 
-  // Carregar progresso do jogador do localStorage
+  /**
+   * Carrega o progresso salvo do jogador do localStorage
+   */
   useEffect(() => {
     if (usuario) {
       const progressoSalvo = localStorage.getItem(`numerais-divertidos-progresso-${usuario.nome}`);
@@ -44,26 +56,36 @@ const Index = () => {
     }
   }, [usuario]);
 
-  // Salvar progresso do jogador no localStorage
+  /**
+   * Salva o progresso do jogador no localStorage quando muda
+   */
   useEffect(() => {
     if (usuario && niveis !== niveisIniciais) {
       localStorage.setItem(`numerais-divertidos-progresso-${usuario.nome}`, JSON.stringify(niveis));
     }
   }, [niveis, usuario]);
 
-  // Selecionar um nível para jogar
+  /**
+   * Seleciona um nível e inicia o jogo
+   * @param {Nivel} nivel - O nível selecionado para jogar
+   */
   const handleSelecionarNivel = (nivel: Nivel) => {
     setNivelAtual(nivel);
     setJogoEmAndamento(true);
   };
 
-  // Voltar para a seleção de níveis
+  /**
+   * Retorna para o menu de seleção de níveis
+   */
   const handleVoltarMenu = () => {
     setJogoEmAndamento(false);
     setNivelAtual(null);
   };
 
-  // Passar para o próximo nível
+  /**
+   * Atualiza o progresso do jogador quando completa um nível
+   * Marca o nível atual como concluído e desbloqueia o próximo
+   */
   const handlePassarNivel = () => {
     if (!nivelAtual) return;
 
@@ -115,7 +137,9 @@ const Index = () => {
     setNivelAtual(null);
   };
 
-  // Resetar todo o progresso do jogo
+  /**
+   * Reseta todo o progresso do jogador após confirmação
+   */
   const handleResetarProgresso = () => {
     if (window.confirm("Tem certeza que deseja resetar todo o seu progresso? Isso não pode ser desfeito!")) {
       if (usuario) {
@@ -130,11 +154,14 @@ const Index = () => {
     }
   };
 
-  // Voltar para o Dashboard
+  /**
+   * Navega de volta para o Dashboard
+   */
   const voltarDashboard = () => {
     navigate('/dashboard');
   };
 
+  // Tela de carregamento enquanto verifica o usuário
   if (carregando) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -146,7 +173,7 @@ const Index = () => {
   return (
     <DndProvider backend={backendForDND}>
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50 to-purple-50">
-        {/* Cabeçalho */}
+        {/* Cabeçalho da página */}
         <header className="bg-white shadow-md py-4">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between">
@@ -155,6 +182,7 @@ const Index = () => {
               </h1>
               
               <div className="flex gap-2">
+                {/* Botão para voltar ao Dashboard */}
                 <button 
                   onClick={voltarDashboard}
                   className="text-sm text-infantil-roxo hover:text-infantil-azul border border-infantil-roxo hover:border-infantil-azul px-2 py-1 rounded"
@@ -162,6 +190,7 @@ const Index = () => {
                   Dashboard
                 </button>
                 
+                {/* Botão para resetar progresso (visível apenas no menu) */}
                 {!jogoEmAndamento && (
                   <button 
                     onClick={handleResetarProgresso}
@@ -175,7 +204,7 @@ const Index = () => {
           </div>
         </header>
 
-        {/* Conteúdo principal */}
+        {/* Conteúdo principal - alterna entre jogo e menu */}
         <main className="container mx-auto px-4 py-8 flex-grow">
           {jogoEmAndamento && nivelAtual ? (
             <JogoNumerosOrdem

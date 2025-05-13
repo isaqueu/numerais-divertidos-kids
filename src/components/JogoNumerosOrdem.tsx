@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -18,6 +19,13 @@ import NumerosDisponiveis from './jogo/NumerosDisponiveis';
 import BotoesAcaoJogo from './jogo/BotoesAcaoJogo';
 import EfeitoComemorar from './jogo/EfeitoComemorar';
 
+/**
+ * Props para o componente JogoNumerosOrdem
+ * @property {Nivel} nivel - Nível atual do jogo com informações como intervalo de números
+ * @property {ConfigJogo} config - Configurações gerais do jogo como quantidade de números
+ * @property {Function} aoPassarNivel - Callback executado quando o jogador completa o nível
+ * @property {Function} aoVoltarMenu - Callback para retornar ao menu de seleção de níveis
+ */
 type JogoNumerosOrdemProps = {
   nivel: Nivel;
   config: ConfigJogo;
@@ -25,35 +33,69 @@ type JogoNumerosOrdemProps = {
   aoVoltarMenu: () => void;
 };
 
-// Componente principal do jogo
+/**
+ * Componente principal do jogo de ordenação de números
+ * Gerencia toda a lógica do jogo, incluindo arrastar e soltar números,
+ * verificar posições corretas, controlar o fluxo do jogo e registrar progresso
+ */
 const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({ 
   nivel, 
   config, 
   aoPassarNivel, 
   aoVoltarMenu 
 }) => {
+  // Array de números disponíveis para o jogador arrastar
   const [numerosDisponiveis, setNumerosDisponiveis] = useState<number[]>([]);
+  
+  // Array que guarda os números posicionados em cada vagão (null = vazio)
   const [numerosPosicionados, setNumerosPosicionados] = useState<(number | null)[]>([]);
+  
+  // Array com a sequência correta de números para este nível
   const [numerosOrdenados, setNumerosOrdenados] = useState<number[]>([]);
+  
+  // Controla quais posições têm números colocados corretamente
   const [respostasCorretas, setRespostasCorretas] = useState<boolean[]>([]);
+  
+  // Indica se todos os vagões estão preenchidos (jogo completo)
   const [jogoCompleto, setJogoCompleto] = useState<boolean>(false);
+  
+  // Indica se o jogo está completado corretamente (sequência correta)
   const [jogoCorreto, setJogoCorreto] = useState<boolean>(false);
+  
+  // Contador de tentativas do jogador (cada vez que arrasta um número)
   const [tentativas, setTentativas] = useState<number>(0);
+  
+  // Controla a exibição da animação de comemoração
   const [comemorando, setComemorando] = useState<boolean>(false);
+  
+  // Timestamp do início da partida (para calcular tempo total)
   const [tempoInicial, setTempoInicial] = useState<number>(Date.now());
+  
+  // Controla a exibição do modal de regras
   const [mostrarRegras, setMostrarRegras] = useState<boolean>(false);
   
+  // Obtém informações do usuário logado
   const { usuario } = useUsuarioAtual();
+  
+  // Verifica se a tela é móvel para ajustes de layout
   const isMobile = useIsMobile();
+  
+  // Define o backend apropriado para DnD (HTML5 ou Touch) baseado no dispositivo
   const backendForDND = isTouchDevice() ? TouchBackend : HTML5Backend;
 
-  // Inicializar jogo com números aleatórios do intervalo do nível
+  /**
+   * Inicializa o jogo quando o nível muda
+   * Gera números aleatórios baseados no intervalo do nível
+   */
   useEffect(() => {
     iniciarJogo();
     setTempoInicial(Date.now());
   }, [nivel]);
 
-  // Verificar se todos os números estão na posição correta
+  /**
+   * Verifica se todos os números estão posicionados corretamente
+   * e atualiza o estado do jogo quando completo
+   */
   useEffect(() => {
     if (numerosPosicionados.length === 0) return;
     
@@ -122,7 +164,10 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     }
   }, [numerosPosicionados]);
 
-  // Iniciar um novo jogo com números aleatórios
+  /**
+   * Inicializa um novo jogo com números aleatórios
+   * Gera todos os arrays necessários para o jogo funcionar
+   */
   const iniciarJogo = () => {
     // Gerar array com números dentro do intervalo do nível
     const intervaloPossivel = Array.from(
@@ -155,7 +200,14 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     setTempoInicial(Date.now());
   };
 
-  // Função para lidar com soltar um número em uma posição
+  /**
+   * Manipula o evento quando um número é solto em uma posição
+   * Atualiza o estado do jogo e fornece feedback visual ao usuário
+   * 
+   * @param {number} indice - Índice do vagão onde o número foi solto
+   * @param {number} numero - O número que foi arrastado e solto
+   * @param {number|null} numeroAnterior - Número que estava no vagão antes (se houver)
+   */
   const handleSoltar = (indice: number, numero: number, numeroAnterior: number | null) => {
     // Incrementa tentativas
     setTentativas(prev => prev + 1);
@@ -201,7 +253,10 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     }
   };
 
-  // Reiniciar posições sem mudar os números
+  /**
+   * Reinicia as posições dos números sem mudar o conjunto de números
+   * Limpa os vagões e devolve todos os números para a área disponível
+   */
   const reiniciarPosicoes = () => {
     // Junta todos os números (posicionados + disponíveis)
     const todosNumeros = [
@@ -221,7 +276,10 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     });
   };
 
-  // Modificar componente AreaTrem para passar o handler atualizado
+  /**
+   * Wrapper da função handleSoltar para passar para o componente AreaTrem
+   * Mantém a assinatura da função esperada pelo componente
+   */
   const handleSoltarAreaTrem = (indice: number, numero: number, numeroAnterior: number | null) => {
     handleSoltar(indice, numero, numeroAnterior);
   };

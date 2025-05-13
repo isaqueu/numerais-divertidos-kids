@@ -1,14 +1,18 @@
 
 import { Nivel } from "../types/jogo";
 
-// Configuração dos níveis do jogo
+/**
+ * Definição dos níveis disponíveis no jogo
+ * Estrutura inicial com progressão de dificuldade
+ * O primeiro nível começa desbloqueado, os demais precisam ser conquistados
+ */
 export const niveis: Nivel[] = [
   {
     id: 1,
     titulo: "Trenzinho Pequeno",
     minimo: 0,
     maximo: 5,
-    desbloqueado: true,
+    desbloqueado: true,    // Único nível inicialmente desbloqueado
     concluido: false
   },
   {
@@ -45,9 +49,12 @@ export const niveis: Nivel[] = [
   }
 ];
 
-// Configuração padrão do jogo
+/**
+ * Configurações padrão do jogo
+ * Define parâmetros como quantidade de números, tempo limite e dicas
+ */
 export const configPadrao = {
-  quantidadeNumeros: 3, // Começamos com 3 números para não dificultar
-  tempoLimite: 0, // Sem limite de tempo inicialmente
-  mostrarDicas: true // Mostrar dicas no começo
+  quantidadeNumeros: 3,  // Começamos com 3 números para facilitar o aprendizado
+  tempoLimite: 0,        // Sem limite de tempo para não pressionar as crianças
+  mostrarDicas: true     // Habilita dicas para ajudar no aprendizado
 };

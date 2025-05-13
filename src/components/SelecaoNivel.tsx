@@ -6,13 +6,28 @@ import { Medal, Star, Gift } from "lucide-react";
 import { Nivel } from '@/types/jogo';
 import { toast } from 'sonner';
 
+/**
+ * Props para o componente SelecaoNivel
+ * @property {Nivel[]} niveis - Lista de níveis do jogo disponíveis
+ * @property {Function} aoSelecionarNivel - Callback para quando um nível é selecionado
+ */
 type SelecaoNivelProps = {
   niveis: Nivel[];
   aoSelecionarNivel: (nivel: Nivel) => void;
 };
 
+/**
+ * Componente que exibe todos os níveis disponíveis para seleção
+ * Controla quais níveis estão desbloqueados e permite sua seleção
+ */
 const SelecaoNivel: React.FC<SelecaoNivelProps> = ({ niveis, aoSelecionarNivel }) => {
   
+  /**
+   * Manipula o clique em um cartão de nível
+   * Verifica se o nível está desbloqueado antes de selecioná-lo
+   * 
+   * @param {Nivel} nivel - O nível que foi clicado
+   */
   const handleClick = (nivel: Nivel) => {
     if (nivel.desbloqueado) {
       aoSelecionarNivel(nivel);
@@ -25,6 +40,12 @@ const SelecaoNivel: React.FC<SelecaoNivelProps> = ({ niveis, aoSelecionarNivel }
     }
   };
 
+  /**
+   * Retorna o ícone apropriado para o nível baseado no seu estado
+   * 
+   * @param {Nivel} nivel - O nível para determinar o ícone
+   * @returns {JSX.Element} - O componente de ícone apropriado
+   */
   const getIconeNivel = (nivel: Nivel) => {
     if (nivel.concluido) return <Medal className="text-yellow-500" />;
     if (nivel.desbloqueado) return <Star className="text-infantil-amarelo" />;
@@ -78,7 +99,13 @@ const SelecaoNivel: React.FC<SelecaoNivelProps> = ({ niveis, aoSelecionarNivel }
 
 export default SelecaoNivel;
 
-// Helper function para concatenar classes condicionalmente
+/**
+ * Função auxiliar para concatenar classes condicionalmente
+ * Combina strings, removendo valores falsy (undefined, false, null, etc)
+ * 
+ * @param {(string | boolean | undefined)[]} classes - Lista de classes a concatenar
+ * @returns {string} - String com as classes válidas concatenadas
+ */
 function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }

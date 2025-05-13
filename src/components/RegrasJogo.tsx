@@ -12,12 +12,22 @@ import {
 import { Button } from "@/components/ui/button";
 import { Star, ListOrdered, ArrowRight, Clock } from 'lucide-react';
 
+/**
+ * Props para o componente RegrasJogo
+ * @property {Nivel} nivel - Nível atual do jogo para mostrar regras específicas
+ * @property {boolean} aberto - Controla se o modal está aberto ou fechado
+ * @property {Function} aoFechar - Callback para quando o modal é fechado
+ */
 type RegrasJogoProps = {
   nivel: Nivel;
   aberto: boolean;
   aoFechar: () => void;
 };
 
+/**
+ * Componente que exibe as regras do jogo em um modal
+ * Explica como jogar e fornece dicas para o jogador
+ */
 const RegrasJogo: React.FC<RegrasJogoProps> = ({ 
   nivel, 
   aberto, 
@@ -37,11 +47,13 @@ const RegrasJogo: React.FC<RegrasJogoProps> = ({
         </DialogHeader>
         
         <div className="space-y-4 my-4">
+          {/* Seção Objetivo */}
           <div className="border-l-4 border-infantil-azul pl-3 py-1">
             <h3 className="text-lg font-medium mb-1">Objetivo:</h3>
             <p>Organizar os números de {nivel.minimo} a {nivel.maximo} em ordem crescente (do menor para o maior) nos vagões do trem.</p>
           </div>
           
+          {/* Seção Como Jogar */}
           <div>
             <h3 className="text-lg font-medium mb-2 flex items-center gap-1">
               <ArrowRight size={18} className="text-infantil-verde" />
@@ -56,6 +68,7 @@ const RegrasJogo: React.FC<RegrasJogoProps> = ({
             </ol>
           </div>
           
+          {/* Seção Dicas */}
           <div className="border-l-4 border-infantil-laranja pl-3 py-1">
             <h3 className="text-lg font-medium mb-1 flex items-center gap-1">
               <Star size={18} className="text-infantil-amarelo" />
@@ -69,6 +82,7 @@ const RegrasJogo: React.FC<RegrasJogoProps> = ({
             </ul>
           </div>
           
+          {/* Seção Lembrete */}
           <div className="border-l-4 border-infantil-verde pl-3 py-1">
             <h3 className="text-lg font-medium mb-1 flex items-center gap-1">
               <Clock size={18} className="text-infantil-roxo" />
