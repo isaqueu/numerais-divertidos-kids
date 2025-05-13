@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -166,12 +165,16 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     novoNumerosPosicionados[indice] = numero;
     setNumerosPosicionados(novoNumerosPosicionados);
     
-    // Atualiza números disponíveis - remove o número solto
-    let novosNumerosDisponiveis = [...numerosDisponiveis];
-    novosNumerosDisponiveis = novosNumerosDisponiveis.filter(n => n !== numero);
+    // Atualiza números disponíveis
+    const novosNumerosDisponiveis = [...numerosDisponiveis];
     
-    // CORREÇÃO: Só devolvemos o número anterior aos disponíveis se ele existir nesta posição
-    // e não interferimos com números em outras posições
+    // 1. Remover o número que acabou de ser colocado no vagão da área disponível
+    const indexNumeroSolto = novosNumerosDisponiveis.indexOf(numero);
+    if (indexNumeroSolto !== -1) {
+      novosNumerosDisponiveis.splice(indexNumeroSolto, 1);
+    }
+    
+    // 2. Se tinha um número anterior no vagão, devolvê-lo para a área disponível
     if (numeroAnterior !== null) {
       novosNumerosDisponiveis.push(numeroAnterior);
     }

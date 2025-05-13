@@ -22,12 +22,11 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: 'numero',
     drop: (item: { numero: number }) => {
-      // Passar o número anterior para que possa ser devolvido aos disponíveis
-      // mas apenas para esta posição específica
+      // Quando um número é solto aqui, passamos o indice desta área,
+      // o número que está sendo solto e o número que estava aqui antes (se houver)
       aoSoltar(indice, item.numero, numeroAtual);
       return { destino: indice };
     },
-    // Aceitamos soltar mesmo se já tiver um número
     canDrop: () => true,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
