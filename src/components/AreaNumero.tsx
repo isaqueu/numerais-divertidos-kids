@@ -9,7 +9,7 @@ type AreaNumeroProps = {
   posicaoEsperada: number;
   numeroAtual: number | null;
   emPosicaoCorreta: boolean;
-  aoSoltar: (indice: number, numero: number) => void;
+  aoSoltar: (indice: number, numero: number, numeroAnterior: number | null) => void;
 };
 
 const AreaNumero: React.FC<AreaNumeroProps> = ({ 
@@ -22,10 +22,12 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: 'numero',
     drop: (item: { numero: number }) => {
-      aoSoltar(indice, item.numero);
+      // Passar o número anterior para que possa ser devolvido aos disponíveis
+      aoSoltar(indice, item.numero, numeroAtual);
       return { destino: indice };
     },
-    canDrop: () => numeroAtual === null, // Só aceita soltar se não tiver número
+    // Agora aceitamos soltar mesmo se já tiver um número
+    canDrop: () => true,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop(),
@@ -34,10 +36,12 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
 
   // Classes condicionais para o container
   const areaClasses = cn(
-    'area-soltavel w-20 h-20 md:w-24 md:h-24 flex items-center justify-center',
-    isOver && 'ativo',
-    emPosicaoCorreta && numeroAtual !== null && 'bg-green-100',
-    numeroAtual !== null ? 'cursor-not-allowed' : 'cursor-pointer'
+    'area-soltavel w-20 h-20 md:w-24 md:h-24 flex items-center justify-center border-2 border-dashed',
+    isOver && 'bg-gray-100 border-blue-500',
+    numeroAtual !== null && emPosicaoCorreta ? 'border-green-500 bg-green-100' : 
+    numeroAtual !== null && !emPosicaoCorreta ? 'border-red-500 bg-red-100' : 
+    'border-gray-300',
+    'cursor-pointer transition-all duration-200'
   );
 
   return (

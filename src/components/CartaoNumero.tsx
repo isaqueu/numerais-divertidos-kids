@@ -18,6 +18,7 @@ const CartaoNumero: React.FC<CartaoNumeroProps> = ({
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'numero',
     item: { numero, posicaoAtual },
+    canDrag: posicaoAtual === undefined, // Só pode arrastar se estiver na área de disponíveis
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -41,15 +42,16 @@ const CartaoNumero: React.FC<CartaoNumeroProps> = ({
       className={cn(
         `${cores[corIndex]} dragavel w-16 h-16 md:w-20 md:h-20 rounded-xl shadow-md flex items-center justify-center
         transition-all duration-300 select-none`,
-        emPosicaoCorreta ? 'ring-4 ring-green-400' : '',
+        emPosicaoCorreta ? 'ring-4 ring-green-400' : (posicaoAtual !== undefined && !emPosicaoCorreta ? 'ring-4 ring-red-400' : ''),
         isDragging ? 'opacity-50' : 'opacity-100',
-        emPosicaoCorreta ? 'animate-brilhar' : ''
+        emPosicaoCorreta ? 'animate-pulse' : '',
+        posicaoAtual === undefined ? 'cursor-grab hover:scale-105' : 'cursor-not-allowed'
       )}
       style={{ 
         transform: isDragging ? 'scale(1.05)' : 'scale(1)',
       }}
     >
-      <span className="text-3xl md:text-4xl font-bold">{numero}</span>
+      <span className="text-3xl md:text-4xl font-bold text-white">{numero}</span>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import AreaNumero from '@/components/AreaNumero';
 type AreaTremProps = {
   numerosPosicionados: (number | null)[];
   respostasCorretas: boolean[];
-  handleSoltar: (indice: number, numero: number) => void;
+  handleSoltar: (indice: number, numero: number, numeroAnterior: number | null) => void;
 };
 
 const AreaTrem: React.FC<AreaTremProps> = ({ 

@@ -38,6 +38,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
   const [numerosOrdenados, setNumerosOrdenados] = useState<number[]>([]);
   const [respostasCorretas, setRespostasCorretas] = useState<boolean[]>([]);
   const [jogoCompleto, setJogoCompleto] = useState<boolean>(false);
+  const [jogoCorreto, setJogoCorreto] = useState<boolean>(false);
   const [tentativas, setTentativas] = useState<number>(0);
   const [comemorando, setComemorando] = useState<boolean>(false);
   const [tempoInicial, setTempoInicial] = useState<number>(Date.now());
@@ -62,12 +63,16 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     
     if (todosPreenchidos) {
       // Verificar se todos estão na ordem correta
-      const estaoOrdenados = [...numerosPosicionados].every((num, index) => num === numerosOrdenados[index]);
+      const estaoOrdenados = numerosPosicionados.every((num, index) => 
+        num === numerosOrdenados[index]
+      );
       
-      if (estaoOrdenados && !jogoCompleto) {
+      setJogoCompleto(true);
+      setJogoCorreto(estaoOrdenados);
+      
+      if (estaoOrdenados) {
         // Todos os números estão corretos!
         const tempoFinal = Math.floor((Date.now() - tempoInicial) / 1000);
-        setJogoCompleto(true);
         setComemorando(true);
         
         // Salvar histórico da partida
@@ -92,7 +97,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
             icon: "🎉",
           });
         }, 500);
-      } else if (todosPreenchidos && !jogoCompleto) {
+      } else {
         // Todos os espaços preenchidos, mas ordem incorreta
         toast("Tente novamente!", { 
           description: "Os números não estão na ordem correta.",
@@ -114,11 +119,6 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
           
           salvarHistoricoPartida(historicoPartida);
         }
-        
-        // Reiniciar posições após um breve delay
-        setTimeout(() => {
-          reiniciarPosicoes();
-        }, 1500);
       }
     }
   }, [numerosPosicionados]);
@@ -150,34 +150,40 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     setRespostasCorretas(Array(quantidadeNumeros).fill(false));
     
     setJogoCompleto(false);
+    setJogoCorreto(false);
     setTentativas(0);
     setComemorando(false);
     setTempoInicial(Date.now());
   };
 
   // Função para lidar com soltar um número em uma posição
-  const handleSoltar = (indice: number, numero: number) => {
-    // Se já existe um número nesse lugar, não faz nada
-    if (numerosPosicionados[indice] !== null) return;
+  const handleSoltar = (indice: number, numero: number, numeroAnterior: number | null) => {
+    // Incrementa tentativas
+    setTentativas(prev => prev + 1);
     
     // Atualiza números posicionados
     const novoNumerosPosicionados = [...numerosPosicionados];
     novoNumerosPosicionados[indice] = numero;
-    
     setNumerosPosicionados(novoNumerosPosicionados);
     
-    // Remove o número dos disponíveis
-    setNumerosDisponiveis(prev => prev.filter(n => n !== numero));
+    // Atualiza números disponíveis - remove o número solto
+    let novosNumerosDisponiveis = numerosDisponiveis.filter(n => n !== numero);
+    
+    // Se havia um número anterior no local, devolve ele para os disponíveis
+    if (numeroAnterior !== null) {
+      novosNumerosDisponiveis = [...novosNumerosDisponiveis, numeroAnterior];
+    }
+    
+    setNumerosDisponiveis(novosNumerosDisponiveis);
     
     // Verifica se o número está na posição correta (comparando com array ordenado)
     const novasRespostas = [...respostasCorretas];
-    novasRespostas[indice] = numero === numerosOrdenados[indice];
+    const estaCorreto = numero === numerosOrdenados[indice];
+    novasRespostas[indice] = estaCorreto;
     setRespostasCorretas(novasRespostas);
     
-    setTentativas(prev => prev + 1);
-    
-    // Verifica se a posição está correta e dá feedback
-    if (novasRespostas[indice]) {
+    // Feedback para o usuário
+    if (estaCorreto) {
       toast("Muito bem!", { 
         description: `O número ${numero} está no lugar certo!`,
         icon: "👍",
@@ -193,16 +199,26 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
   // Reiniciar posições sem mudar os números
   const reiniciarPosicoes = () => {
     // Junta todos os números (posicionados + disponíveis)
-    const todosNumeros = [...numerosPosicionados.filter(n => n !== null), ...numerosDisponiveis];
+    const todosNumeros = [
+      ...numerosPosicionados.filter(n => n !== null) as number[], 
+      ...numerosDisponiveis
+    ];
     
     // Reseta posições e disponibiliza todos os números novamente
     setNumerosPosicionados(Array(numerosPosicionados.length).fill(null));
     setNumerosDisponiveis(embaralharArray(todosNumeros));
     setRespostasCorretas(Array(numerosPosicionados.length).fill(false));
+    setJogoCompleto(false);
+    setJogoCorreto(false);
     
     toast("Jogo reiniciado", { 
       description: "Tente novamente organizar os números!" 
     });
+  };
+
+  // Modificar componente AreaTrem para passar o handler atualizado
+  const handleSoltarAreaTrem = (indice: number, numero: number, numeroAnterior: number | null) => {
+    handleSoltar(indice, numero, numeroAnterior);
   };
 
   return (
@@ -216,16 +232,30 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
         <AreaTrem 
           numerosPosicionados={numerosPosicionados}
           respostasCorretas={respostasCorretas}
-          handleSoltar={handleSoltar}
+          handleSoltar={handleSoltarAreaTrem}
         />
 
         <NumerosDisponiveis
           numerosDisponiveis={numerosDisponiveis}
           jogoCompleto={jogoCompleto}
         />
+        
+        {jogoCompleto && (
+          <div className={`mb-4 p-4 rounded-md text-center ${jogoCorreto ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+            <h3 className="text-xl font-bold">
+              {jogoCorreto ? '🎉 Parabéns! Sequência correta!' : '❌ Sequência incorreta!'}
+            </h3>
+            <p>
+              {jogoCorreto 
+                ? 'Você organizou todos os números na ordem certa!' 
+                : 'Os números não estão na ordem correta. Tente novamente.'}
+            </p>
+          </div>
+        )}
 
         <BotoesAcaoJogo
           jogoCompleto={jogoCompleto}
+          jogoCorreto={jogoCorreto}
           numerosPosicionados={numerosPosicionados}
           onVoltarMenu={aoVoltarMenu}
           onReiniciarPosicoes={reiniciarPosicoes}
