@@ -23,10 +23,11 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
     accept: 'numero',
     drop: (item: { numero: number }) => {
       // Passar o número anterior para que possa ser devolvido aos disponíveis
+      // mas apenas para esta posição específica
       aoSoltar(indice, item.numero, numeroAtual);
       return { destino: indice };
     },
-    // Agora aceitamos soltar mesmo se já tiver um número
+    // Aceitamos soltar mesmo se já tiver um número
     canDrop: () => true,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -49,6 +50,7 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
       <div
         ref={drop}
         className={areaClasses}
+        data-testid={`area-soltar-${indice}`}
       >
         {numeroAtual !== null && (
           <CartaoNumero 

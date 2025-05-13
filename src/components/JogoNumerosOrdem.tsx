@@ -167,11 +167,13 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     setNumerosPosicionados(novoNumerosPosicionados);
     
     // Atualiza números disponíveis - remove o número solto
-    let novosNumerosDisponiveis = numerosDisponiveis.filter(n => n !== numero);
+    let novosNumerosDisponiveis = [...numerosDisponiveis];
+    novosNumerosDisponiveis = novosNumerosDisponiveis.filter(n => n !== numero);
     
-    // Se havia um número anterior no local, devolve ele para os disponíveis
+    // CORREÇÃO: Só devolvemos o número anterior aos disponíveis se ele existir nesta posição
+    // e não interferimos com números em outras posições
     if (numeroAnterior !== null) {
-      novosNumerosDisponiveis = [...novosNumerosDisponiveis, numeroAnterior];
+      novosNumerosDisponiveis.push(numeroAnterior);
     }
     
     setNumerosDisponiveis(novosNumerosDisponiveis);
