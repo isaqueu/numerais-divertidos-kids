@@ -227,9 +227,9 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     }
     
     // 2. Se tinha um número anterior no vagão, devolvê-lo para a área disponível
-    if (numeroAnterior !== null) {
-      novosNumerosDisponiveis.push(numeroAnterior);
-    }
+    // if (numeroAnterior !== null) {
+    //   novosNumerosDisponiveis.push(numeroAnterior);
+    // }
     
     setNumerosDisponiveis(novosNumerosDisponiveis);
     
