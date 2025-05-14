@@ -45,40 +45,40 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
 }) => {
   // Array de números disponíveis para o jogador arrastar
   const [numerosDisponiveis, setNumerosDisponiveis] = useState<number[]>([]);
-  
+
   // Array que guarda os números posicionados em cada vagão (null = vazio)
   const [numerosPosicionados, setNumerosPosicionados] = useState<(number | null)[]>([]);
-  
+
   // Array com a sequência correta de números para este nível
   const [numerosOrdenados, setNumerosOrdenados] = useState<number[]>([]);
-  
+
   // Controla quais posições têm números colocados corretamente
   const [respostasCorretas, setRespostasCorretas] = useState<boolean[]>([]);
-  
+
   // Indica se todos os vagões estão preenchidos (jogo completo)
   const [jogoCompleto, setJogoCompleto] = useState<boolean>(false);
-  
+
   // Indica se o jogo está completado corretamente (sequência correta)
   const [jogoCorreto, setJogoCorreto] = useState<boolean>(false);
-  
+
   // Contador de tentativas do jogador (cada vez que arrasta um número)
   const [tentativas, setTentativas] = useState<number>(0);
-  
+
   // Controla a exibição da animação de comemoração
   const [comemorando, setComemorando] = useState<boolean>(false);
-  
+
   // Timestamp do início da partida (para calcular tempo total)
   const [tempoInicial, setTempoInicial] = useState<number>(Date.now());
-  
+
   // Controla a exibição do modal de regras
   const [mostrarRegras, setMostrarRegras] = useState<boolean>(false);
-  
+
   // Obtém informações do usuário logado
   const { usuario } = useUsuarioAtual();
-  
+
   // Verifica se a tela é móvel para ajustes de layout
   const isMobile = useIsMobile();
-  
+
   // Define o backend apropriado para DnD (HTML5 ou Touch) baseado no dispositivo
   const backendForDND = isTouchDevice() ? TouchBackend : HTML5Backend;
 
@@ -98,26 +98,26 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
    */
   useEffect(() => {
     if (numerosPosicionados.length === 0) return;
-    
+
     console.log('[LIFECYCLE] useEffect para verificar jogo completo após mudança nos numerosPositionados', numerosPosicionados);
-    
+
     // Verificar se todos os espaços foram preenchidos
     const todosPreenchidos = numerosPosicionados.every(num => num !== null);
-    
+
     if (todosPreenchidos) {
       // Verificar se todos estão na ordem correta
       const estaoOrdenados = numerosPosicionados.every((num, index) => 
         num === numerosOrdenados[index]
       );
-      
+
       setJogoCompleto(true);
       setJogoCorreto(estaoOrdenados);
-      
+
       if (estaoOrdenados) {
         // Todos os números estão corretos!
         const tempoFinal = Math.floor((Date.now() - tempoInicial) / 1000);
         setComemorando(true);
-        
+
         // Salvar histórico da partida
         if (usuario) {
           const historicoPartida: HistoricoPartida = {
@@ -130,10 +130,10 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
             tentativas: tentativas,
             tempoTotal: tempoFinal
           };
-          
+
           salvarHistoricoPartida(historicoPartida);
         }
-        
+
         setTimeout(() => {
           toast("Parabéns!", { 
             description: `Você completou o nível ${nivel.titulo}!`,
@@ -146,7 +146,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
           description: "Os números não estão na ordem correta.",
           icon: "🤔",
         });
-        
+
         // Registrar tentativa com erro
         if (usuario) {
           const historicoPartida: HistoricoPartida = {
@@ -159,7 +159,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
             tentativas: tentativas,
             tempoTotal: Math.floor((Date.now() - tempoInicial) / 1000)
           };
-          
+
           salvarHistoricoPartida(historicoPartida);
         }
       }
@@ -177,33 +177,33 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
       { length: (nivel.maximo - nivel.minimo) + 1 }, 
       (_, i) => nivel.minimo + i
     );
-    
+
     // Pegar a quantidade configurada de números do intervalo
     const quantidadeNumeros = config.quantidadeNumeros;
     const numerosAleatorios = embaralharArray(intervaloPossivel)
       .slice(0, quantidadeNumeros);
-      
+
     console.log('[INICIAR JOGO] Números aleatórios gerados:', numerosAleatorios);
-    
+
     // Ordenar para saber a posição correta
     const ordenados = [...numerosAleatorios].sort((a, b) => a - b);
     setNumerosOrdenados(ordenados);
-    
+
     // Números que o jogador irá arrastar
     setNumerosDisponiveis(embaralharArray(numerosAleatorios));
-    
+
     // Posições vazias para colocar os números
     setNumerosPosicionados(Array(quantidadeNumeros).fill(null));
-    
+
     // Array para controlar quais posições estão corretas
     setRespostasCorretas(Array(quantidadeNumeros).fill(false));
-    
+
     setJogoCompleto(false);
     setJogoCorreto(false);
     setTentativas(0);
     setComemorando(false);
     setTempoInicial(Date.now());
-    
+
     console.log('[INICIAR JOGO] Estado inicial do jogo:', {
       numerosOrdenados: ordenados,
       numerosDisponiveis: embaralharArray(numerosAleatorios),
@@ -243,26 +243,26 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
         numerosPosicionados: [...numerosPosicionados]
       }
     });
-    
+
     // Incrementa tentativas
     setTentativas(prev => prev + 1);
-    
+
     // Clona arrays para manipulação
     const novosNumerosPosicionados = [...numerosPosicionados];
     const novosNumerosDisponiveis = [...numerosDisponiveis];
-    
+
     // CASO 1: O número veio de outro vagão
     if (posicaoOrigem !== undefined) {
       console.log(`[HANDLE_SOLTAR] Número ${numero} veio do vagão ${posicaoOrigem}`);
-      
+
       // Se o número está sendo movido para um vagão diferente
       if (posicaoOrigem !== indice) {
         // Coloca o número na nova posição
         novosNumerosPosicionados[indice] = numero;
-        
+
         // Limpa a posição original
         novosNumerosPosicionados[posicaoOrigem] = null;
-        
+
         // Se já tinha um número na posição de destino, coloca ele de volta na posição original
         if (numeroAnterior !== null) {
           novosNumerosPosicionados[posicaoOrigem] = numeroAnterior;
@@ -273,31 +273,31 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     // CASO 2: O número veio da área de disponíveis
     else {
       console.log(`[HANDLE_SOLTAR] Número ${numero} veio da área de disponíveis`);
-      
+
       // Coloca o número no vagão
       novosNumerosPosicionados[indice] = numero;
-      
+
       // Remove o número da área de disponíveis
       const indexNumero = novosNumerosDisponiveis.indexOf(numero);
       if (indexNumero !== -1) {
         novosNumerosDisponiveis.splice(indexNumero, 1);
+
+        // Se tinha um número anterior NESTE vagão, devolve ele para área de disponíveis
+        if (numeroAnterior !== null) {
+          novosNumerosDisponiveis.push(numeroAnterior);
+        }
       } else {
         console.error(`[ERRO] Número ${numero} não encontrado em numerosDisponiveis!`);
       }
-      
-      // Se tinha um número anterior no vagão, devolve ele para área de disponíveis
-      if (numeroAnterior !== null) {
-        novosNumerosDisponiveis.push(numeroAnterior);
-      }
     }
-    
+
     // Atualiza o estado do jogo
     setNumerosPosicionados(novosNumerosPosicionados);
     setNumerosDisponiveis(novosNumerosDisponiveis);
-    
+
     // Verifica se o número está na posição correta
     const novasRespostas = [...respostasCorretas];
-    
+
     // Atualiza todas as respostas para refletir o novo estado
     novosNumerosPosicionados.forEach((num, idx) => {
       if (num === null) {
@@ -306,18 +306,18 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
         novasRespostas[idx] = num === numerosOrdenados[idx];
       }
     });
-    
+
     setRespostasCorretas(novasRespostas);
-    
+
     // Verifica se este número específico está na posição correta para feedback
     const estaCorreto = numero === numerosOrdenados[indice];
-    
+
     console.log(`[HANDLE_SOLTAR] Estado final após soltar:`, {
       numerosDisponiveis: novosNumerosDisponiveis,
       numerosPosicionados: novosNumerosPosicionados,
       respostasCorretas: novasRespostas
     });
-    
+
     // Feedback para o usuário
     if (estaCorreto) {
       toast("Muito bem!", { 
@@ -343,19 +343,19 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
       ...numerosPosicionados.filter(n => n !== null) as number[], 
       ...numerosDisponiveis
     ];
-    
+
     console.log('[REINICIAR_POSICOES] Todos os números disponíveis após reset:', todosNumeros);
-    
+
     // Reseta posições e disponibiliza todos os números novamente
     setNumerosPosicionados(Array(numerosPosicionados.length).fill(null));
     setNumerosDisponiveis(embaralharArray(todosNumeros));
     setRespostasCorretas(Array(numerosPosicionados.length).fill(false));
     setJogoCompleto(false);
     setJogoCorreto(false);
-    
+
     // Log estado final
     logEstadoAtual('Estado após reiniciar posições');
-    
+
     toast("Jogo reiniciado", { 
       description: "Tente novamente organizar os números!" 
     });
@@ -397,7 +397,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
           numerosDisponiveis={numerosDisponiveis}
           jogoCompleto={jogoCompleto}
         />
-        
+
         {jogoCompleto && (
           <div className={`mb-4 p-4 rounded-md text-center ${jogoCorreto ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
             <h3 className="text-xl font-bold">
