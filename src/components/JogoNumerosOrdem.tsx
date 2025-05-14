@@ -260,13 +260,13 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
         // Coloca o número na nova posição
         novosNumerosPosicionados[indice] = numero;
 
-        // Limpa a posição original
-        novosNumerosPosicionados[posicaoOrigem] = null;
+        // // Limpa a posição original
+        // novosNumerosPosicionados[posicaoOrigem] = null;
 
-        // Se já tinha um número na posição de destino, coloca ele de volta na posição original
-        if (numeroAnterior !== null) {
-          novosNumerosPosicionados[posicaoOrigem] = numeroAnterior;
-        }
+        // // Se já tinha um número na posição de destino, coloca ele de volta na posição original
+        // if (numeroAnterior !== null) {
+        //   novosNumerosPosicionados[posicaoOrigem] = numeroAnterior;
+        // }
       }
       // Se o número está sendo solto na mesma posição, não fazemos nada
     } 
@@ -277,15 +277,15 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
       // Coloca o número no vagão
       novosNumerosPosicionados[indice] = numero;
 
-      // Remove o número da área de disponíveis
-      const indexNumero = novosNumerosDisponiveis.indexOf(numero);
-      if (indexNumero !== -1) {
-        novosNumerosDisponiveis.splice(indexNumero, 1);
+      // // Remove o número da área de disponíveis
+      // const indexNumero = novosNumerosDisponiveis.indexOf(numero);
+      // if (indexNumero !== -1) {
+      //   novosNumerosDisponiveis.splice(indexNumero, 1);
 
-        // Se tinha um número anterior no vagão de destino, devolve ele para área de disponíveis
-        if (numeroAnterior !== null) {
-          novosNumerosDisponiveis.push(numeroAnterior);
-        }
+      //   // Se tinha um número anterior no vagão de destino, devolve ele para área de disponíveis
+      //   if (numeroAnterior !== null) {
+      //     novosNumerosDisponiveis.push(numeroAnterior);
+      //   }
       } else {
         console.error(`[ERRO] Número ${numero} não encontrado em numerosDisponiveis!`);
       }
