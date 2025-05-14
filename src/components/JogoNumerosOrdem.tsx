@@ -247,57 +247,74 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     // Incrementa tentativas
     setTentativas(prev => prev + 1);
     
-    // Atualiza números posicionados
-    const novoNumerosPosicionados = [...numerosPosicionados];
-    novoNumerosPosicionados[indice] = numero;
-    setNumerosPosicionados(novoNumerosPosicionados);
-    console.log(`[HANDLE_SOLTAR] Atualizou numerosPosicionados:`, novoNumerosPosicionados);
-    
-    // Atualiza números disponíveis - correção completa
+    // Clona arrays para manipulação
+    const novosNumerosPosicionados = [...numerosPosicionados];
     const novosNumerosDisponiveis = [...numerosDisponiveis];
     
+    // CASO 1: O número veio de outro vagão
     if (posicaoOrigem !== undefined) {
-      // O número veio de outro vagão - removemos da posição anterior
-      console.log(`[HANDLE_SOLTAR] Número ${numero} veio do vagão ${posicaoOrigem}, atualizando posição`);
+      console.log(`[HANDLE_SOLTAR] Número ${numero} veio do vagão ${posicaoOrigem}`);
       
-      // Só limpa a posição original se não for a mesma onde está sendo colocado
+      // Se o número está sendo movido para um vagão diferente
       if (posicaoOrigem !== indice) {
-        novoNumerosPosicionados[posicaoOrigem] = null;
-        console.log(`[HANDLE_SOLTAR] Removendo número ${numero} do vagão ${posicaoOrigem}`);
+        // Coloca o número na nova posição
+        novosNumerosPosicionados[indice] = numero;
+        
+        // Limpa a posição original
+        novosNumerosPosicionados[posicaoOrigem] = null;
+        
+        // Se já tinha um número na posição de destino, coloca ele de volta na posição original
+        if (numeroAnterior !== null) {
+          novosNumerosPosicionados[posicaoOrigem] = numeroAnterior;
+        }
+      }
+      // Se o número está sendo solto na mesma posição, não fazemos nada
+    } 
+    // CASO 2: O número veio da área de disponíveis
+    else {
+      console.log(`[HANDLE_SOLTAR] Número ${numero} veio da área de disponíveis`);
+      
+      // Coloca o número no vagão
+      novosNumerosPosicionados[indice] = numero;
+      
+      // Remove o número da área de disponíveis
+      const indexNumero = novosNumerosDisponiveis.indexOf(numero);
+      if (indexNumero !== -1) {
+        novosNumerosDisponiveis.splice(indexNumero, 1);
+      } else {
+        console.error(`[ERRO] Número ${numero} não encontrado em numerosDisponiveis!`);
       }
       
-      // Não precisamos alterar os números disponíveis neste caso
-    } else {
-      // O número veio da área de disponíveis - removemos de lá
-      const indexNumeroSolto = novosNumerosDisponiveis.indexOf(numero);
-      if (indexNumeroSolto !== -1) {
-        console.log(`[HANDLE_SOLTAR] Removendo número ${numero} da posição ${indexNumeroSolto} em numerosDisponiveis`);
-        novosNumerosDisponiveis.splice(indexNumeroSolto, 1);
-      } else {
-        console.log(`[HANDLE_SOLTAR] ERRO: Número ${numero} não encontrado em numerosDisponiveis!`);
+      // Se tinha um número anterior no vagão, devolve ele para área de disponíveis
+      if (numeroAnterior !== null) {
+        novosNumerosDisponiveis.push(numeroAnterior);
       }
     }
     
-    // Se tinha um número anterior no vagão, devolvê-lo para a área disponível
-    if (numeroAnterior !== null) {
-      console.log(`[HANDLE_SOLTAR] Devolvendo número anterior ${numeroAnterior} para numerosDisponiveis`);
-      novosNumerosDisponiveis.push(numeroAnterior);
-    }
-    
-    console.log(`[HANDLE_SOLTAR] Novos numerosDisponiveis:`, novosNumerosDisponiveis);
+    // Atualiza o estado do jogo
+    setNumerosPosicionados(novosNumerosPosicionados);
     setNumerosDisponiveis(novosNumerosDisponiveis);
     
     // Verifica se o número está na posição correta
     const novasRespostas = [...respostasCorretas];
-    const estaCorreto = numero === numerosOrdenados[indice];
-    novasRespostas[indice] = estaCorreto;
-    setRespostasCorretas(novasRespostas);
-    console.log(`[HANDLE_SOLTAR] Número ${numero} na posição ${indice} está correto? ${estaCorreto}`);
     
-    // Log estado final
+    // Atualiza todas as respostas para refletir o novo estado
+    novosNumerosPosicionados.forEach((num, idx) => {
+      if (num === null) {
+        novasRespostas[idx] = false;
+      } else {
+        novasRespostas[idx] = num === numerosOrdenados[idx];
+      }
+    });
+    
+    setRespostasCorretas(novasRespostas);
+    
+    // Verifica se este número específico está na posição correta para feedback
+    const estaCorreto = numero === numerosOrdenados[indice];
+    
     console.log(`[HANDLE_SOLTAR] Estado final após soltar:`, {
       numerosDisponiveis: novosNumerosDisponiveis,
-      numerosPosicionados: novoNumerosPosicionados,
+      numerosPosicionados: novosNumerosPosicionados,
       respostasCorretas: novasRespostas
     });
     
