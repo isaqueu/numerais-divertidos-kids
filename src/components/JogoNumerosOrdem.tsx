@@ -257,18 +257,11 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
 
       // Se o número está sendo movido para um vagão diferente
       if (posicaoOrigem !== indice) {
-        // Coloca o número na nova posição
+        // Faz a troca direta entre as posições
+        const numeroTemp = novosNumerosPosicionados[indice];
         novosNumerosPosicionados[indice] = numero;
-
-        // // Limpa a posição original
-        // novosNumerosPosicionados[posicaoOrigem] = null;
-
-        // // Se já tinha um número na posição de destino, coloca ele de volta na posição original
-        // if (numeroAnterior !== null) {
-        //   novosNumerosPosicionados[posicaoOrigem] = numeroAnterior;
-        // }
+        novosNumerosPosicionados[posicaoOrigem] = numeroTemp;
       }
-      // Se o número está sendo solto na mesma posição, não fazemos nada
     } 
     // CASO 2: O número veio da área de disponíveis
     else {
@@ -279,8 +272,8 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
 
       // Remove o número da área de disponíveis
       const indexNumero = novosNumerosDisponiveis.indexOf(numero);
-      if (indexNumero === -1) {
-        console.error(`[ERRO] Número ${numero} não encontrado em numerosDisponiveis!`);
+      if (indexNumero !== -1) {
+        novosNumerosDisponiveis.splice(indexNumero, 1);
       }
     }
 
