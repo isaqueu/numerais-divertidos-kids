@@ -252,7 +252,8 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     setNumerosPosicionados(novoNumerosPosicionados);
     console.log(`[HANDLE_SOLTAR] Atualizou numerosPosicionados:`, novoNumerosPosicionados);
     
-    // Atualiza números disponíveis
+    // Atualiza números disponíveis - CORREÇÃO AQUI
+    // Cria uma cópia do array atual de números disponíveis
     const novosNumerosDisponiveis = [...numerosDisponiveis];
     
     // 1. Remover o número que acabou de ser colocado no vagão da área disponível
@@ -261,7 +262,16 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
       console.log(`[HANDLE_SOLTAR] Removendo número ${numero} da posição ${indexNumeroSolto} em numerosDisponiveis`);
       novosNumerosDisponiveis.splice(indexNumeroSolto, 1);
     } else {
-      console.log(`[HANDLE_SOLTAR] Número ${numero} não encontrado em numerosDisponiveis`);
+      // Se o número não está nos disponíveis, precisamos verificar de onde ele veio
+      console.log(`[HANDLE_SOLTAR] Número ${numero} não encontrado em numerosDisponiveis, verificando posições anteriores`);
+      
+      // Verifica se o número estava em outra posição e remove de lá
+      const posicaoAnterior = numerosPosicionados.findIndex((num, idx) => num === numero && idx !== indice);
+      if (posicaoAnterior !== -1) {
+        console.log(`[HANDLE_SOLTAR] Número ${numero} encontrado no vagão ${posicaoAnterior}, removendo de lá`);
+        novoNumerosPosicionados[posicaoAnterior] = null;
+        // Não precisamos adicionar aos disponíveis, pois está sendo movido para outra posição
+      }
     }
     
     // 2. Se tinha um número anterior no vagão, devolvê-lo para a área disponível
