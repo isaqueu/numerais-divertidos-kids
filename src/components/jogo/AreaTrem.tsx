@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import AreaNumero from '@/components/AreaNumero';
 
 /**
@@ -23,6 +23,13 @@ const AreaTrem: React.FC<AreaTremProps> = ({
   respostasCorretas, 
   handleSoltar 
 }) => {
+  // Log quando os números posicionados mudam
+  useEffect(() => {
+    console.log('[AREA_TREM] Prop numerosPosicionados atualizada:', numerosPosicionados);
+  }, [numerosPosicionados]);
+
+  console.log('[RENDER] AreaTrem renderizando com', numerosPosicionados.filter(n => n !== null).length, 'vagões preenchidos');
+
   return (
     <div className="mb-10">
       <div className="flex flex-row items-center">

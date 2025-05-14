@@ -35,15 +35,31 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     // Tipo de item que esta área aceita
     accept: 'numero',
+    // Verifica se pode soltar (sempre true aqui, pode substituir números)
+    canDrop: (item: { numero: number, posicaoAtual?: number }, monitor) => {
+      console.log(`[CAN_DROP] Verificando se pode soltar ${item.numero} no vagão ${indice} (contém: ${numeroAtual})`, {
+        posicaoOriginalItem: item.posicaoAtual, 
+      });
+      return true;
+    },
+    // Função executada quando um número entra na área de soltura
+    hover: (item: { numero: number, posicaoAtual?: number }, monitor) => {
+      if (monitor.isOver({ shallow: true })) {
+        console.log(`[HOVER] Número ${item.numero} sobre o vagão ${indice} (contém: ${numeroAtual})`);
+      }
+    },
     // Função executada quando um item é solto nesta área
-    drop: (item: { numero: number }) => {
+    drop: (item: { numero: number, posicaoAtual?: number }) => {
+      console.log(`[DROP] Número ${item.numero} solto no vagão ${indice}`, {
+        numeroAnterior: numeroAtual,
+        posicaoOriginalItem: item.posicaoAtual
+      });
+      
       // Quando um número é solto aqui, passamos o indice desta área,
       // o número que está sendo solto e o número que estava aqui antes (se houver)
       aoSoltar(indice, item.numero, numeroAtual);
       return { destino: indice };
     },
-    // Esta área aceita qualquer número, mesmo se já tiver um (substituição)
-    canDrop: () => true,
     // Coletor de propriedades para controle visual
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -70,6 +86,9 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
         ref={drop}
         className={areaClasses}
         data-testid={`area-soltar-${indice}`}
+        onClick={() => {
+          console.log(`[CLICK_ÁREA] Clique no vagão ${indice} (contém: ${numeroAtual})`);
+        }}
       >
         {/* Se tiver um número, renderiza o cartão (não arrastável) */}
         {numeroAtual !== null && (

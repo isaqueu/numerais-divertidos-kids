@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import CartaoNumero from '@/components/CartaoNumero';
 
 /**
@@ -20,6 +20,13 @@ const NumerosDisponiveis: React.FC<NumerosDisponiveisProps> = ({
   numerosDisponiveis, 
   jogoCompleto 
 }) => {
+  // Log quando os números disponíveis mudam
+  useEffect(() => {
+    console.log('[NUMEROS_DISPONIVEIS] Prop numerosDisponiveis atualizada:', numerosDisponiveis);
+  }, [numerosDisponiveis]);
+
+  console.log('[RENDER] NumerosDisponiveis renderizando com', numerosDisponiveis.length, 'números');
+
   return (
     <div className="bg-blue-50 p-4 rounded-xl">
       {/* Título da seção */}

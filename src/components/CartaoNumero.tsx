@@ -30,9 +30,22 @@ const CartaoNumero: React.FC<CartaoNumeroProps> = ({
     // Tipo do item sendo arrastado (para compatibilidade com áreas de soltura)
     type: 'numero',
     // Dados do item que serão passados para o destino quando solto
-    item: { numero, posicaoAtual },
+    item: () => {
+      console.log(`[DRAG START] Iniciando arrasto do número ${numero}`, posicaoAtual ? `da posição ${posicaoAtual}` : 'da área de disponíveis');
+      return { numero, posicaoAtual };
+    },
     // Só pode arrastar se estiver na área de disponíveis (não posicionado em um vagão)
     canDrag: posicaoAtual === undefined,
+    // Fim do arrasto
+    end: (item, monitor) => {
+      const didDrop = monitor.didDrop();
+      const dropResult = monitor.getDropResult() as { destino: number } | null;
+      console.log(`[DRAG END] Fim do arrasto do número ${numero}`, {
+        foiSolto: didDrop,
+        resultado: dropResult,
+        posicaoOriginal: posicaoAtual
+      });
+    },
     // Coletor de propriedades para controle visual
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -73,6 +86,9 @@ const CartaoNumero: React.FC<CartaoNumeroProps> = ({
       // Estilos inline para transformação durante o arrasto
       style={{ 
         transform: isDragging ? 'scale(1.05)' : 'scale(1)',
+      }}
+      onClick={() => {
+        console.log(`[CLICK] Clique no número ${numero}`, posicaoAtual ? `na posição ${posicaoAtual}` : 'na área de disponíveis');
       }}
     >
       <span className="text-3xl md:text-4xl font-bold text-white">{numero}</span>
