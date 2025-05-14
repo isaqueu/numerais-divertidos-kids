@@ -34,7 +34,10 @@ const CartaoNumero: React.FC<CartaoNumeroProps> = ({
       console.log(`[DRAG START] Iniciando arrasto do número ${numero}`, 
         posicaoAtual !== undefined ? `da posição ${posicaoAtual}` : 'da área de disponíveis'
       );
-      return { numero, posicaoAtual };
+      return { 
+        numero, 
+        posicaoOrigem: posicaoAtual // Importante: passar a posição de origem corretamente
+      };
     },
     // Permite arrastar qualquer número (da área disponível ou já posicionado)
     canDrag: true,

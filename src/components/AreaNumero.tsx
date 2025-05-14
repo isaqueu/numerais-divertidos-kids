@@ -36,28 +36,28 @@ const AreaNumero: React.FC<AreaNumeroProps> = ({
     // Tipo de item que esta área aceita
     accept: 'numero',
     // Verifica se pode soltar (sempre true aqui, pode substituir números)
-    canDrop: (item: { numero: number, posicaoAtual?: number }, monitor) => {
+    canDrop: (item: { numero: number, posicaoOrigem?: number }, monitor) => {
       console.log(`[CAN_DROP] Verificando se pode soltar ${item.numero} no vagão ${indice} (contém: ${numeroAtual})`, {
-        posicaoOriginalItem: item.posicaoAtual, 
+        posicaoOriginalItem: item.posicaoOrigem, 
       });
       return true;
     },
     // Função executada quando um número entra na área de soltura
-    hover: (item: { numero: number, posicaoAtual?: number }, monitor) => {
+    hover: (item: { numero: number, posicaoOrigem?: number }, monitor) => {
       if (monitor.isOver({ shallow: true })) {
         console.log(`[HOVER] Número ${item.numero} sobre o vagão ${indice} (contém: ${numeroAtual})`);
       }
     },
     // Função executada quando um item é solto nesta área
-    drop: (item: { numero: number, posicaoAtual?: number }) => {
+    drop: (item: { numero: number, posicaoOrigem?: number }) => {
       console.log(`[DROP] Número ${item.numero} solto no vagão ${indice}`, {
         numeroAnterior: numeroAtual,
-        posicaoOriginalItem: item.posicaoAtual
+        posicaoOriginalItem: item.posicaoOrigem
       });
       
       // Quando um número é solto aqui, passamos o indice desta área,
       // o número que está sendo solto e o número que estava aqui antes (se houver)
-      aoSoltar(indice, item.numero, numeroAtual);
+      aoSoltar(indice, item.numero, numeroAtual, item.posicaoOrigem);
       return { destino: indice };
     },
     // Coletor de propriedades para controle visual

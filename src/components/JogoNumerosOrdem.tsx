@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -233,10 +232,12 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
    * @param {number} indice - Índice do vagão onde o número foi solto
    * @param {number} numero - O número que foi arrastado e solto
    * @param {number|null} numeroAnterior - Número que estava no vagão antes (se houver)
+   * @param {number|undefined} posicaoOrigem - Posição de onde o número veio (vagão ou undefined para área de disponíveis)
    */
-  const handleSoltar = (indice: number, numero: number, numeroAnterior: number | null) => {
+  const handleSoltar = (indice: number, numero: number, numeroAnterior: number | null, posicaoOrigem?: number) => {
     console.log(`[HANDLE_SOLTAR] Início: Soltar número ${numero} no vagão ${indice}`, {
       numeroAnterior,
+      posicaoOrigem,
       estadoAntes: {
         numerosDisponiveis: [...numerosDisponiveis],
         numerosPosicionados: [...numerosPosicionados]
@@ -252,29 +253,32 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     setNumerosPosicionados(novoNumerosPosicionados);
     console.log(`[HANDLE_SOLTAR] Atualizou numerosPosicionados:`, novoNumerosPosicionados);
     
-    // Atualiza números disponíveis - CORREÇÃO AQUI
-    // Cria uma cópia do array atual de números disponíveis
+    // Atualiza números disponíveis - correção completa
     const novosNumerosDisponiveis = [...numerosDisponiveis];
     
-    // 1. Remover o número que acabou de ser colocado no vagão da área disponível
-    const indexNumeroSolto = novosNumerosDisponiveis.indexOf(numero);
-    if (indexNumeroSolto !== -1) {
-      console.log(`[HANDLE_SOLTAR] Removendo número ${numero} da posição ${indexNumeroSolto} em numerosDisponiveis`);
-      novosNumerosDisponiveis.splice(indexNumeroSolto, 1);
-    } else {
-      // Se o número não está nos disponíveis, precisamos verificar de onde ele veio
-      console.log(`[HANDLE_SOLTAR] Número ${numero} não encontrado em numerosDisponiveis, verificando posições anteriores`);
+    if (posicaoOrigem !== undefined) {
+      // O número veio de outro vagão - removemos da posição anterior
+      console.log(`[HANDLE_SOLTAR] Número ${numero} veio do vagão ${posicaoOrigem}, atualizando posição`);
       
-      // Verifica se o número estava em outra posição e remove de lá
-      const posicaoAnterior = numerosPosicionados.findIndex((num, idx) => num === numero && idx !== indice);
-      if (posicaoAnterior !== -1) {
-        console.log(`[HANDLE_SOLTAR] Número ${numero} encontrado no vagão ${posicaoAnterior}, removendo de lá`);
-        novoNumerosPosicionados[posicaoAnterior] = null;
-        // Não precisamos adicionar aos disponíveis, pois está sendo movido para outra posição
+      // Só limpa a posição original se não for a mesma onde está sendo colocado
+      if (posicaoOrigem !== indice) {
+        novoNumerosPosicionados[posicaoOrigem] = null;
+        console.log(`[HANDLE_SOLTAR] Removendo número ${numero} do vagão ${posicaoOrigem}`);
+      }
+      
+      // Não precisamos alterar os números disponíveis neste caso
+    } else {
+      // O número veio da área de disponíveis - removemos de lá
+      const indexNumeroSolto = novosNumerosDisponiveis.indexOf(numero);
+      if (indexNumeroSolto !== -1) {
+        console.log(`[HANDLE_SOLTAR] Removendo número ${numero} da posição ${indexNumeroSolto} em numerosDisponiveis`);
+        novosNumerosDisponiveis.splice(indexNumeroSolto, 1);
+      } else {
+        console.log(`[HANDLE_SOLTAR] ERRO: Número ${numero} não encontrado em numerosDisponiveis!`);
       }
     }
     
-    // 2. Se tinha um número anterior no vagão, devolvê-lo para a área disponível
+    // Se tinha um número anterior no vagão, devolvê-lo para a área disponível
     if (numeroAnterior !== null) {
       console.log(`[HANDLE_SOLTAR] Devolvendo número anterior ${numeroAnterior} para numerosDisponiveis`);
       novosNumerosDisponiveis.push(numeroAnterior);
@@ -344,9 +348,9 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
    * Wrapper da função handleSoltar para passar para o componente AreaTrem
    * Mantém a assinatura da função esperada pelo componente
    */
-  const handleSoltarAreaTrem = (indice: number, numero: number, numeroAnterior: number | null) => {
-    console.log(`[HANDLE_SOLTAR_AREA_TREM] Delegando soltar número ${numero} no vagão ${indice} (anterior: ${numeroAnterior})`);
-    handleSoltar(indice, numero, numeroAnterior);
+  const handleSoltarAreaTrem = (indice: number, numero: number, numeroAnterior: number | null, posicaoOrigem?: number) => {
+    console.log(`[HANDLE_SOLTAR_AREA_TREM] Delegando soltar número ${numero} no vagão ${indice} (anterior: ${numeroAnterior}, origem: ${posicaoOrigem})`);
+    handleSoltar(indice, numero, numeroAnterior, posicaoOrigem);
   };
 
   // Logamos estado a cada renderização para depuração
