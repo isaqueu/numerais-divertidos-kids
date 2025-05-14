@@ -277,16 +277,9 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
       // Coloca o número no vagão
       novosNumerosPosicionados[indice] = numero;
 
-      // // Remove o número da área de disponíveis
-      // const indexNumero = novosNumerosDisponiveis.indexOf(numero);
-      // if (indexNumero !== -1) {
-      //   novosNumerosDisponiveis.splice(indexNumero, 1);
-
-      //   // Se tinha um número anterior no vagão de destino, devolve ele para área de disponíveis
-      //   if (numeroAnterior !== null) {
-      //     novosNumerosDisponiveis.push(numeroAnterior);
-      //   }
-      } else {
+      // Remove o número da área de disponíveis
+      const indexNumero = novosNumerosDisponiveis.indexOf(numero);
+      if (indexNumero === -1) {
         console.error(`[ERRO] Número ${numero} não encontrado em numerosDisponiveis!`);
       }
     }
