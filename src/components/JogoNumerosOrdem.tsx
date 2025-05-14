@@ -282,7 +282,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
       if (indexNumero !== -1) {
         novosNumerosDisponiveis.splice(indexNumero, 1);
 
-        // Se tinha um número anterior NESTE vagão, devolve ele para área de disponíveis
+        // Se tinha um número anterior no vagão de destino, devolve ele para área de disponíveis
         if (numeroAnterior !== null) {
           novosNumerosDisponiveis.push(numeroAnterior);
         }
