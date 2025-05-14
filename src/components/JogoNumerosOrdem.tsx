@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -208,6 +209,20 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
       numerosOrdenados: ordenados,
       numerosDisponiveis: embaralharArray(numerosAleatorios),
       numerosPosicionados: Array(quantidadeNumeros).fill(null)
+    });
+  };
+
+  /**
+   * Função auxiliar para registrar o estado atual do jogo nos logs (depuração)
+   * @param {string} mensagem - Mensagem descritiva sobre o momento do log
+   */
+  const logEstadoAtual = (mensagem: string) => {
+    console.log(`[LOG_ESTADO] ${mensagem}:`, {
+      numerosDisponiveis,
+      numerosPosicionados,
+      respostasCorretas,
+      jogoCompleto,
+      jogoCorreto
     });
   };
 

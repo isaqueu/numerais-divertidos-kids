@@ -31,11 +31,13 @@ const CartaoNumero: React.FC<CartaoNumeroProps> = ({
     type: 'numero',
     // Dados do item que serão passados para o destino quando solto
     item: () => {
-      console.log(`[DRAG START] Iniciando arrasto do número ${numero}`, posicaoAtual ? `da posição ${posicaoAtual}` : 'da área de disponíveis');
+      console.log(`[DRAG START] Iniciando arrasto do número ${numero}`, 
+        posicaoAtual !== undefined ? `da posição ${posicaoAtual}` : 'da área de disponíveis'
+      );
       return { numero, posicaoAtual };
     },
-    // Só pode arrastar se estiver na área de disponíveis (não posicionado em um vagão)
-    canDrag: posicaoAtual === undefined,
+    // Permite arrastar qualquer número (da área disponível ou já posicionado)
+    canDrag: true,
     // Fim do arrasto
     end: (item, monitor) => {
       const didDrop = monitor.didDrop();
@@ -80,8 +82,8 @@ const CartaoNumero: React.FC<CartaoNumeroProps> = ({
         isDragging ? 'opacity-50' : 'opacity-100',
         // Pulsação para destacar quando estiver correto
         emPosicaoCorreta ? 'animate-pulse' : '',
-        // Cursor apropriado baseado se pode ou não ser arrastado
-        posicaoAtual === undefined ? 'cursor-grab hover:scale-105' : 'cursor-not-allowed'
+        // Cursor apropriado (agora todos são arrastáveis)
+        'cursor-grab hover:scale-105'
       )}
       // Estilos inline para transformação durante o arrasto
       style={{ 
