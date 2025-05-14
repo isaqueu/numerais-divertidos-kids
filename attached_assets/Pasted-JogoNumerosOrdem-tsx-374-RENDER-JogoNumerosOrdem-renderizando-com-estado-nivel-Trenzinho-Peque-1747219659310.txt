@@ -1,0 +1,190 @@
+JogoNumerosOrdem.tsx:374 [RENDER] JogoNumerosOrdem renderizando com estado: {nivel: 'Trenzinho Pequeno', numerosDisponiveis: Array(0), numerosPosicionados: Array(0), jogoCompleto: false, jogoCorreto: false}
+AreaTrem.tsx:31 [RENDER] AreaTrem renderizando com 0 vagões preenchidos
+NumerosDisponiveis.tsx:28 [RENDER] NumerosDisponiveis renderizando com 0 números
+AreaTrem.tsx:28 [AREA_TREM] Prop numerosPosicionados atualizada: []
+NumerosDisponiveis.tsx:25 [NUMEROS_DISPONIVEIS] Prop numerosDisponiveis atualizada: []
+JogoNumerosOrdem.tsx:90 [LIFECYCLE] useEffect para iniciar jogo - nível alterado {id: 1, titulo: 'Trenzinho Pequeno', minimo: 0, maximo: 5, desbloqueado: true, …}
+JogoNumerosOrdem.tsx:174 [INICIAR JOGO] Iniciando novo jogo para o nível {id: 1, titulo: 'Trenzinho Pequeno', minimo: 0, maximo: 5, desbloqueado: true, …}
+JogoNumerosOrdem.tsx:186 [INICIAR JOGO] Números aleatórios gerados: (3) [2, 0, 4]
+JogoNumerosOrdem.tsx:207 [INICIAR JOGO] Estado inicial do jogo: {numerosOrdenados: Array(3), numerosDisponiveis: Array(3), numerosPosicionados: Array(3)}
+JogoNumerosOrdem.tsx:374 [RENDER] JogoNumerosOrdem renderizando com estado: {nivel: 'Trenzinho Pequeno', numerosDisponiveis: Array(3), numerosPosicionados: Array(3), jogoCompleto: false, jogoCorreto: false}
+AreaTrem.tsx:31 [RENDER] AreaTrem renderizando com 0 vagões preenchidos
+NumerosDisponiveis.tsx:28 [RENDER] NumerosDisponiveis renderizando com 3 números
+AreaTrem.tsx:28 [AREA_TREM] Prop numerosPosicionados atualizada: (3) [null, null, null]
+NumerosDisponiveis.tsx:25 [NUMEROS_DISPONIVEIS] Prop numerosDisponiveis atualizada: (3) [0, 4, 2]
+JogoNumerosOrdem.tsx:102 [LIFECYCLE] useEffect para verificar jogo completo após mudança nos numerosPositionados (3) [null, null, null]
+CartaoNumero.tsx:34 [DRAG START] Iniciando arrasto do número 0 da área de disponíveis
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 2 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 2 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 2 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:50 [HOVER] Número 0 sobre o vagão 0 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 0 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:56 [DROP] Número 0 solto no vagão 0 {numeroAnterior: null, posicaoOriginalItem: undefined}
+JogoNumerosOrdem.tsx:369 [HANDLE_SOLTAR_AREA_TREM] Delegando soltar número 0 no vagão 0 (anterior: null, origem: undefined)
+JogoNumerosOrdem.tsx:238 [HANDLE_SOLTAR] Início: Soltar número 0 no vagão 0 {numeroAnterior: null, posicaoOrigem: undefined, estadoAntes: {…}}
+JogoNumerosOrdem.tsx:275 [HANDLE_SOLTAR] Número 0 veio da área de disponíveis
+JogoNumerosOrdem.tsx:315 [HANDLE_SOLTAR] Estado final após soltar: {numerosDisponiveis: Array(2), numerosPosicionados: Array(3), respostasCorretas: Array(3)}
+CartaoNumero.tsx:48 [DRAG END] Fim do arrasto do número 0 {foiSolto: true, resultado: {…}, posicaoOriginal: undefined}
+JogoNumerosOrdem.tsx:374 [RENDER] JogoNumerosOrdem renderizando com estado: {nivel: 'Trenzinho Pequeno', numerosDisponiveis: Array(2), numerosPosicionados: Array(3), jogoCompleto: false, jogoCorreto: false}
+AreaTrem.tsx:31 [RENDER] AreaTrem renderizando com 1 vagões preenchidos
+NumerosDisponiveis.tsx:28 [RENDER] NumerosDisponiveis renderizando com 2 números
+AreaTrem.tsx:28 [AREA_TREM] Prop numerosPosicionados atualizada: (3) [0, null, null]
+NumerosDisponiveis.tsx:25 [NUMEROS_DISPONIVEIS] Prop numerosDisponiveis atualizada: (2) [4, 2]
+JogoNumerosOrdem.tsx:102 [LIFECYCLE] useEffect para verificar jogo completo após mudança nos numerosPositionados (3) [0, null, null]
+CartaoNumero.tsx:34 [DRAG START] Iniciando arrasto do número 4 da área de disponíveis
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 2 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 2 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 0 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 2 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:50 [HOVER] Número 4 sobre o vagão 1 (contém: null)
+AreaNumero.tsx:41 [CAN_DROP] Verificando se pode soltar 4 no vagão 1 (contém: null) {posicaoOriginalItem: undefined}
+AreaNumero.tsx:56 [DROP] Número 4 solto no vagão 1 {numeroAnterior: null, posicaoOriginalItem: undefined}
+JogoNumerosOrdem.tsx:369 [HANDLE_SOLTAR_AREA_TREM] Delegando soltar número 4 no vagão 1 (anterior: null, origem: undefined)
+JogoNumerosOrdem.tsx:238 [HANDLE_SOLTAR] Início: Soltar número 4 no vagão 1 {numeroAnterior: null, posicaoOrigem: undefined, estadoAntes: {…}}
+JogoNumerosOrdem.tsx:275 [HANDLE_SOLTAR] Número 4 veio da área de disponíveis
+JogoNumerosOrdem.tsx:315 [HANDLE_SOLTAR] Estado final após soltar: {numerosDisponiveis: Array(2), numerosPosicionados: Array(3), respostasCorretas: Array(3)}
+CartaoNumero.tsx:48 [DRAG END] Fim do arrasto do número 4 {foiSolto: true, resultado: {…}, posicaoOriginal: undefined}
+JogoNumerosOrdem.tsx:374 [RENDER] JogoNumerosOrdem renderizando com estado: {nivel: 'Trenzinho Pequeno', numerosDisponiveis: Array(2), numerosPosicionados: Array(3), jogoCompleto: false, jogoCorreto: false}
+AreaTrem.tsx:31 [RENDER] AreaTrem renderizando com 1 vagões preenchidos
+NumerosDisponiveis.tsx:28 [RENDER] NumerosDisponiveis renderizando com 2 números
+AreaTrem.tsx:28 [AREA_TREM] Prop numerosPosicionados atualizada: (3) [null, 4, null]
+NumerosDisponiveis.tsx:25 [NUMEROS_DISPONIVEIS] Prop numerosDisponiveis atualizada: (2) [0, 2]
+JogoNumerosOrdem.tsx:102 [LIFECYCLE] useEffect para verificar jogo completo após mudança nos numerosPositionados (3) [null, 4, null]
