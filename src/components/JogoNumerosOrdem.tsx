@@ -267,18 +267,14 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     else {
       console.log(`[HANDLE_SOLTAR] Número ${numero} veio da área de disponíveis`);
 
-      // Atualiza apenas o vagão específico, mantendo os outros intactos
-      const novaPosicao = [...numerosPosicionados];
-      novaPosicao[indice] = numero;
-      setNumerosPosicionados(novaPosicao);
+      // Atualiza o vagão específico
+      novosNumerosPosicionados[indice] = numero;
 
       // Remove o número da área de disponíveis
       const indexNumero = novosNumerosDisponiveis.indexOf(numero);
       if (indexNumero !== -1) {
         novosNumerosDisponiveis.splice(indexNumero, 1);
       }
-      setNumerosDisponiveis(novosNumerosDisponiveis);
-      return;
     }
 
     // Atualiza o estado do jogo
