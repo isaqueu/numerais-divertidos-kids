@@ -20,12 +20,12 @@ type JogoContextType = {
   setTentativas: (tentativas: number) => void;
   tempoInicial: number;
   setTempoInicial: (tempo: number) => void;
-  iniciarJogoContexto: (nivel: Nivel, quantidadeNumeros: number) => void;
+  iniciarJogo: (nivel: Nivel, quantidadeNumeros: number) => void;
 };
 
 const JogoContext = createContext<JogoContextType | null>(null);
 
-export function JogoProvider({ children }: { children: ReactNode }) {
+export function JogoProvider({ children }: { children: ReactNode }): JSX.Element {
   const [numerosDisponiveis, setNumerosDisponiveis] = useState<number[]>([]);
   const [numerosPosicionados, setNumerosPosicionados] = useState<(number | null)[]>([]);
   const [numerosOrdenados, setNumerosOrdenados] = useState<number[]>([]);
@@ -36,6 +36,7 @@ export function JogoProvider({ children }: { children: ReactNode }) {
   const [tempoInicial, setTempoInicial] = useState(Date.now());
 
   const iniciarJogo = (nivel: Nivel, quantidadeNumeros: number) => {
+    console.log('[CONTEXT] Iniciando jogo com nível:', nivel.titulo);
     const intervaloPossivel = Array.from(
       { length: (nivel.maximo - nivel.minimo) + 1 }, 
       (_, i) => nivel.minimo + i

@@ -61,7 +61,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     setTentativas,
     tempoInicial,
     setTempoInicial,
-    iniciarJogoContexto
+    iniciarJogo
   } = useJogo();
 
   // Controla a exibição da animação de comemoração
@@ -85,8 +85,8 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
    */
   useEffect(() => {
     console.log('[LIFECYCLE] useEffect para iniciar jogo - nível alterado', nivel);
-    iniciarJogoContexto(nivel, config.quantidadeNumeros);
-  }, [nivel, config.quantidadeNumeros, iniciarJogoContexto]);
+    iniciarJogo(nivel, config.quantidadeNumeros);
+  }, [nivel, config.quantidadeNumeros, iniciarJogo]);
 
   /**
    * Verifica se todos os números estão posicionados corretamente
