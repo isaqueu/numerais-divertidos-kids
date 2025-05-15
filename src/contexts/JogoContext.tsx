@@ -75,7 +75,7 @@ export function JogoProvider({ children }: { children: ReactNode }) {
       iniciarJogo
     }}>
       {children}
-    </JogoProvider>
+    </JogoContext.Provider>
   );
 }
 
