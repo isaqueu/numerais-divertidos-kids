@@ -43,32 +43,26 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
   aoPassarNivel, 
   aoVoltarMenu 
 }) => {
-  // Array de números disponíveis para o jogador arrastar
-  const [numerosDisponiveis, setNumerosDisponiveis] = useState<number[]>([]);
-
-  // Array que guarda os números posicionados em cada vagão (null = vazio)
-  const [numerosPosicionados, setNumerosPosicionados] = useState<(number | null)[]>([]);
-
-  // Array com a sequência correta de números para este nível
-  const [numerosOrdenados, setNumerosOrdenados] = useState<number[]>([]);
-
-  // Controla quais posições têm números colocados corretamente
-  const [respostasCorretas, setRespostasCorretas] = useState<boolean[]>([]);
-
-  // Indica se todos os vagões estão preenchidos (jogo completo)
-  const [jogoCompleto, setJogoCompleto] = useState<boolean>(false);
-
-  // Indica se o jogo está completado corretamente (sequência correta)
-  const [jogoCorreto, setJogoCorreto] = useState<boolean>(false);
-
-  // Contador de tentativas do jogador (cada vez que arrasta um número)
-  const [tentativas, setTentativas] = useState<number>(0);
+  const { 
+    numerosDisponiveis,
+    setNumerosDisponiveis,
+    numerosPosicionados,
+    setNumerosPosicionados,
+    numerosOrdenados,
+    respostasCorretas,
+    setRespostasCorretas,
+    jogoCompleto,
+    setJogoCompleto,
+    jogoCorreto,
+    setJogoCorreto,
+    tentativas,
+    setTentativas,
+    tempoInicial,
+    iniciarJogo
+  } = useJogo();
 
   // Controla a exibição da animação de comemoração
   const [comemorando, setComemorando] = useState<boolean>(false);
-
-  // Timestamp do início da partida (para calcular tempo total)
-  const [tempoInicial, setTempoInicial] = useState<number>(Date.now());
 
   // Controla a exibição do modal de regras
   const [mostrarRegras, setMostrarRegras] = useState<boolean>(false);
