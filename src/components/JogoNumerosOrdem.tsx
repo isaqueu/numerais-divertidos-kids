@@ -49,6 +49,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     numerosPosicionados,
     setNumerosPosicionados,
     numerosOrdenados,
+    setNumerosOrdenados,
     respostasCorretas,
     setRespostasCorretas,
     jogoCompleto,
@@ -58,7 +59,8 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     tentativas,
     setTentativas,
     tempoInicial,
-    iniciarJogo
+    setTempoInicial,
+    iniciarJogoContexto
   } = useJogo();
 
   // Controla a exibição da animação de comemoração
@@ -82,8 +84,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
    */
   useEffect(() => {
     console.log('[LIFECYCLE] useEffect para iniciar jogo - nível alterado', nivel);
-    iniciarJogo();
-    setTempoInicial(Date.now());
+    iniciarJogoContexto(nivel, config.quantidadeNumeros);
   }, [nivel]);
 
   /**
@@ -160,50 +161,7 @@ const JogoNumerosOrdem: React.FC<JogoNumerosOrdemProps> = ({
     }
   }, [numerosPosicionados]);
 
-  /**
-   * Inicializa um novo jogo com números aleatórios
-   * Gera todos os arrays necessários para o jogo funcionar
-   */
-  const iniciarJogo = () => {
-    console.log('[INICIAR JOGO] Iniciando novo jogo para o nível', nivel);
-    // Gerar array com números dentro do intervalo do nível
-    const intervaloPossivel = Array.from(
-      { length: (nivel.maximo - nivel.minimo) + 1 }, 
-      (_, i) => nivel.minimo + i
-    );
-
-    // Pegar a quantidade configurada de números do intervalo
-    const quantidadeNumeros = config.quantidadeNumeros;
-    const numerosAleatorios = embaralharArray(intervaloPossivel)
-      .slice(0, quantidadeNumeros);
-
-    console.log('[INICIAR JOGO] Números aleatórios gerados:', numerosAleatorios);
-
-    // Ordenar para saber a posição correta
-    const ordenados = [...numerosAleatorios].sort((a, b) => a - b);
-    setNumerosOrdenados(ordenados);
-
-    // Números que o jogador irá arrastar
-    setNumerosDisponiveis(embaralharArray(numerosAleatorios));
-
-    // Posições vazias para colocar os números
-    setNumerosPosicionados(Array(quantidadeNumeros).fill(null));
-
-    // Array para controlar quais posições estão corretas
-    setRespostasCorretas(Array(quantidadeNumeros).fill(false));
-
-    setJogoCompleto(false);
-    setJogoCorreto(false);
-    setTentativas(0);
-    setComemorando(false);
-    setTempoInicial(Date.now());
-
-    console.log('[INICIAR JOGO] Estado inicial do jogo:', {
-      numerosOrdenados: ordenados,
-      numerosDisponiveis: embaralharArray(numerosAleatorios),
-      numerosPosicionados: Array(quantidadeNumeros).fill(null)
-    });
-  };
+  
 
   /**
    * Função auxiliar para registrar o estado atual do jogo nos logs (depuração)
