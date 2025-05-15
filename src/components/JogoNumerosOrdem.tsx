@@ -10,6 +10,7 @@ import RegrasJogo from './RegrasJogo';
 import { salvarHistoricoPartida } from '@/utils/historicoUtils';
 import { useUsuarioAtual } from '@/hooks/use-usuario';
 import { embaralharArray } from '@/utils/jogoUtils';
+import { useJogo } from '@/contexts/JogoContext';
 
 // Componentes refatorados
 import CabecalhoJogo from './jogo/CabecalhoJogo';
