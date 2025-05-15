@@ -20,7 +20,7 @@ type JogoContextType = {
   setTentativas: (tentativas: number) => void;
   tempoInicial: number;
   setTempoInicial: (tempo: number) => void;
-  iniciarJogo: (nivel: Nivel, quantidadeNumeros: number) => void;
+  iniciarJogoContexto: (nivel: Nivel, quantidadeNumeros: number) => void;
 };
 
 const JogoContext = createContext<JogoContextType | null>(null);
